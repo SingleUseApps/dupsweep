@@ -1,0 +1,90 @@
+name: Release
+
+# Single-stage release: pushing a version tag (vX.Y.Z) runs the tests, then builds
+# the macOS + Windows installers AND creates the GitHub Release with them attached —
+# all in one run under the built-in token (no RELEASE_PAT needed).
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            # Both arches installed so the universal binary runs on Intel + Apple Silicon.
+            target: "aarch64-apple-darwin,x86_64-apple-darwin"
+            args: "--target universal-apple-darwin"
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            args: ""
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Cache Rust build
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      # Test gate: a failure here stops the build, so this platform's installer
+      # is never produced. Runs on each OS, re-checking the Windows path logic.
+      - name: Frontend tests
+        run: npm test
+
+      - name: Backend tests
+        run: cargo test --manifest-path src-tauri/Cargo.toml --lib
+
+      - name: Build installers and publish the release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: ${{ github.ref_name }}
+          releaseBody: "See the assets below to download and install."
+          # Publishes the release as soon as both builds finish. Set to true if
+          # you'd rather review a draft and publish it manually.
+          releaseDraft: false
+          prerelease: false
+          args: ${{ matrix.args }}
+
+      # Attach a second copy of each installer with a stable, version-less name, so a
+      # website can link to https://github.com/<repo>/releases/latest/download/<name>
+      # and always get the newest version. The versioned originals stay too.
+      - name: Attach stable-named installers for "latest" links
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          attach() {
+            local src
+            src=$(find src-tauri/target -path "*release/bundle/*" -name "$1" 2>/dev/null | head -1)
+            if [ -n "$src" ]; then
+              cp "$src" "$2"
+              gh release upload "$GITHUB_REF_NAME" "$2" --clobber
+              echo "Attached $2 (from $src)"
+            fi
+          }
+          attach "*.dmg"       "DupSweep-macos.dmg"
+          attach "*-setup.exe" "DupSweep-windows-setup.exe"
+          attach "*.msi"       "DupSweep-windows.msi"
