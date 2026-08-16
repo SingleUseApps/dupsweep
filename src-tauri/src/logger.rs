@@ -1,5 +1,5 @@
 // Mirrors MergeLog.swift: every destructive/merge operation writes a JSON + HTML
-// report into ~/Documents/FileLister Logs/. The Operation History viewer reads them back.
+// report into ~/Documents/DupSweep Logs/. The Operation History viewer reads them back.
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::PathBuf;
@@ -65,7 +65,7 @@ pub fn entry(action: &str, name: &str, src: &str, src_folder: &str, dest: &str, 
 
 pub fn default_log_dir() -> Option<PathBuf> {
     let home = std::env::var("HOME").ok().or_else(|| std::env::var("USERPROFILE").ok())?;
-    Some(PathBuf::from(home).join("Documents").join("FileLister Logs"))
+    Some(PathBuf::from(home).join("Documents").join("DupSweep Logs"))
 }
 
 // Writes <base>.json and <base>.html, returns the json path. Mirrors MergeLogWriter.write.
@@ -77,7 +77,7 @@ pub fn write_to(report: &LogReport, dir: &std::path::Path) -> Option<String> {
     fs::create_dir_all(dir).ok()?;
     // Microsecond stamp keeps rapid successive writes from colliding.
     let stamp = chrono::Local::now().format("%Y-%m-%d_%H-%M-%S-%6f").to_string();
-    let base = format!("FileLister-merge-{}", stamp);
+    let base = format!("DupSweep-merge-{}", stamp);
 
     let json = serde_json::to_string_pretty(report).ok()?;
     let json_path = dir.join(format!("{}.json", base));
@@ -132,7 +132,7 @@ fn render_pdf(report: &LogReport, path: &std::path::Path) -> Option<()> {
             .chars().map(|c| if c.is_ascii() { c } else { '?' }).collect()
     };
     let mut lines: Vec<(String, u32, bool)> = vec![
-        ("FileLister - Operation Log".into(), 16, true),
+        ("DupSweep - Operation Log".into(), 16, true),
         (ascii(&format!("{}  ·  {}  ·  v{}", report.timestamp, report.mode, report.app_version)), 9, false),
     ];
     let (moved, removed, bytes, errors) = summary(report);
@@ -218,7 +218,7 @@ pub fn list_in(dir: &std::path::Path) -> Vec<(String, LogReport)> {
         for e in rd.flatten() {
             let p = e.path();
             let name = p.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
-            if name.starts_with("FileLister-merge-") && name.ends_with(".json") {
+            if name.starts_with("DupSweep-merge-") && name.ends_with(".json") {
                 if let Ok(text) = fs::read_to_string(&p) {
                     if let Ok(report) = serde_json::from_str::<LogReport>(&text) {
                         out.push((p.to_string_lossy().to_string(), report));
@@ -316,7 +316,7 @@ fn render_html(report: &LogReport) -> String {
     }
 
     format!(
-        "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>FileLister Operation Log</title><style>\
+        "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>DupSweep Operation Log</title><style>\
          :root{{color-scheme:light dark;}} body{{font:13px -apple-system,system-ui,sans-serif;margin:24px;color:#1d1d1f;}}\
          h1{{font-size:20px;margin:0 0 4px;}} .sub{{color:#6e6e73;margin-bottom:16px;}}\
          .summary{{display:flex;gap:24px;flex-wrap:wrap;background:#f5f5f7;padding:14px 18px;border-radius:10px;margin-bottom:22px;}}\
@@ -328,7 +328,7 @@ fn render_html(report: &LogReport) -> String {
          th{{font-size:10px;text-transform:uppercase;color:#8e8e93;}} td.action{{font-weight:700;font-size:11px;white-space:nowrap;}}\
          tr.move td.action{{color:#0a84ff;}} tr.del td.action{{color:#ff3b30;}} tr.keep td.action{{color:#8e8e93;}} tr.copy td.action{{color:#34c759;}} tr.err td.action{{color:#ff9500;}}\
          @media(prefers-color-scheme:dark){{body{{color:#f5f5f7;}} .summary{{background:#1c1c1e;}} section.cluster{{border-color:#3a3a3c;}} .path{{color:#aeaeb2;}} th,td{{border-color:#2c2c2e;}}}}\
-         </style></head><body><h1>FileLister — Operation Log</h1>\
+         </style></head><body><h1>DupSweep — Operation Log</h1>\
          <div class=\"sub\">{} · {} · v{}</div>\
          <div class=\"summary\"><div><b>{}</b><span>cluster(s)</span></div><div><b>{}</b><span>files moved/copied</span></div>\
          <div><b>{}</b><span>removed</span></div><div><b>{}</b><span>space reclaimed</span></div><div><b>{}</b><span>error(s)</span></div></div>{}</body></html>",

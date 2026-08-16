@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { formatBytes } from "../api";
+import { formatBytes, openLicensePage } from "../api";
 
 export function CleanAllSheet({ count, bytes, onClean, onCancel }) {
   return (
@@ -98,7 +98,7 @@ export function LicenseSheet({ onValidate, onClose, registered, registeredName, 
         <h2>License Key</h2>
         {registered ? (
           <>
-            <p>Licensed to <b>{registeredName}</b>. Thank you for supporting FileLister.</p>
+            <p>Licensed to <b>{registeredName}</b>. Thank you for supporting DupSweep.</p>
             <div className="sheet-row">
               <button className="btn-secondary" onClick={onDeactivate}>Deactivate</button>
               <button className="btn-primary" onClick={onClose}>Done</button>
@@ -118,6 +118,9 @@ export function LicenseSheet({ onValidate, onClose, registered, registeredName, 
               <button className="btn-secondary" onClick={onClose}>Cancel</button>
               <button className="btn-primary" onClick={submit}>Register</button>
             </div>
+            <p style={{ marginTop: 12 }}>
+              Don't have a key yet? <a href="#" onClick={(e) => { e.preventDefault(); openLicensePage(); }}>Get a License →</a>
+            </p>
           </>
         )}
       </div>
@@ -163,6 +166,7 @@ export function RegisterAlert({ onClose }) {
         <h2>Registration Required</h2>
         <p>You have reached the trial limit (15 deletions) or attempted a premium action. Register to unlock unlimited access.</p>
         <div className="sheet-row">
+          <button className="btn-secondary" onClick={() => openLicensePage()}>Get a License →</button>
           <button className="btn-primary" onClick={onClose}>OK</button>
         </div>
       </div>
