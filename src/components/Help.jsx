@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Icon } from "../icons";
 
 const SECTIONS = [
-  { id: "welcome", label: "Welcome to FileLister", icon: "shield" },
+  { id: "welcome", label: "Welcome to DupSweep", icon: "shield" },
   { id: "files", label: "Files at a Glance", icon: "doc" },
   { id: "folders", label: "Folder Duplicates & Merging", icon: "folderQ" },
   { id: "photos", label: "Duplicate Photos", icon: "photo" },
@@ -37,8 +37,8 @@ export function HelpWindow({ onClose }) {
         <div style={{ flex: 1, padding: 28, overflowY: "auto" }}>
           {section === "welcome" && (
             <>
-              <h2 style={{ fontSize: 22 }}>Welcome to FileLister</h2>
-              <p style={{ marginBottom: 18 }}>FileLister scans any folder and finds duplicate <b>files</b>, duplicate <b>folders</b>, and visually similar <b>photos</b>. All processing is on-device — nothing leaves your machine. Built with Tauri to run identically on macOS and Windows.</p>
+              <h2 style={{ fontSize: 22 }}>Welcome to DupSweep</h2>
+              <p style={{ marginBottom: 18 }}>DupSweep scans any folder and finds duplicate <b>files</b>, duplicate <b>folders</b>, and visually similar <b>photos</b>. All processing is on-device — nothing leaves your machine. Built with Tauri to run identically on macOS and Windows.</p>
               <Feature icon="shield" color="indigo" title="Deep Scan (SHA-256)" body="Byte-level content comparison ensures zero false positives — matches go beyond filename and size." />
               <Feature icon="trash" color="red" title="Safe deletion" body="Files move to the system Trash, never permanently deleted. One copy per group is always locked." />
               <Feature icon="play" color="green" title="Undo" body="Press ⌘Z (Ctrl+Z on Windows) right after a delete or merge to restore from Trash." />

@@ -1,6 +1,7 @@
 import { invoke, convertFileSrc } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { open } from "@tauri-apps/plugin-dialog";
+import { openUrl } from "@tauri-apps/plugin-opener";
 
 // Pure path/format helpers live in lib/paths (no Tauri deps); re-exported for convenience.
 export { formatBytes, baseName, joinPath, isUnder } from "./lib/paths";
@@ -42,6 +43,11 @@ export async function pickFolders(multiple = true) {
 }
 export async function pickDestination() {
   return (await open({ directory: true, multiple: false, canCreateDirectories: true })) || null;
+}
+
+// Opens the purchase page in the system browser.
+export function openLicensePage() {
+  return openUrl("https://dupsweep.com");
 }
 
 export const fileSrc = convertFileSrc;
