@@ -23,7 +23,7 @@ export function DialogHost() {
       {dialog?.type === "photoDelete" && <PhotoDeleteSheet count={dialog.count} bytes={dialog.bytes} all={dialog.all} onConfirm={dialog.run} onCancel={close} />}
       {dialog?.type === "license" && (
         <LicenseSheet registered={license.registered} registeredName={license.name} onDeactivate={() => { deactivate(); close(); }} onClose={close}
-          onValidate={async (k) => { const ok = await register(k); if (ok) close(); return ok; }} />
+          onValidate={async (k, email) => { const ok = await register(k, email); if (ok) close(); return ok; }} />
       )}
       {dialog?.type === "register" && <RegisterAlert onClose={close} />}
       {dialog?.type === "filters" && <FiltersSheet value={scanFilters} onChange={setScanFilters} onClose={close} />}

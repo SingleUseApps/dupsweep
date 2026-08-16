@@ -24,7 +24,7 @@ export const api = {
   undoOp: (trashed, created) => invoke("undo_op", { trashed, created }),
   listLogs: () => invoke("list_logs"),
   readTextFile: (path, maxBytes = 65536) => invoke("read_text_file", { path, maxBytes }),
-  validateLicense: (key) => invoke("validate_license", { key }),
+  validateLicense: (key, email) => invoke("validate_license", { key, email }),
   revealInFinder: (path) => invoke("reveal_in_finder", { path }),
   openFolder: (path) => invoke("open_folder", { path }),
 };

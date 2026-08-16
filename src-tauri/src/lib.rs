@@ -349,8 +349,8 @@ fn read_text_file(path: String, max_bytes: usize) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn validate_license(key: String) -> bool {
-    license::validate(&key)
+fn validate_license(key: String, email: String) -> bool {
+    license::validate(&key, &email)
 }
 
 #[tauri::command]

@@ -85,11 +85,13 @@ export function PhotoDeleteSheet({ count, bytes, onConfirm, onCancel, all }) {
 
 export function LicenseSheet({ onValidate, onClose, registered, registeredName, onDeactivate }) {
   const [key, setKey] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
   async function submit() {
-    const ok = await onValidate(key.trim());
-    if (!ok) setError("Invalid license key. Check the format: XXXX-XXXX-XXXX-XXXX-XXXX-XXXX");
+    if (!email.trim()) { setError("Enter the email your license key was issued to."); return; }
+    const ok = await onValidate(key.trim(), email.trim());
+    if (!ok) setError("Invalid license key or email. Check the key format: XXXX-XXXX-XXXX-XXXX-XXXX-XXXXXX");
   }
 
   return (
@@ -106,11 +108,17 @@ export function LicenseSheet({ onValidate, onClose, registered, registeredName, 
           </>
         ) : (
           <>
-            <p>Enter your license key to unlock unlimited deletions. The trial allows 15 deletions.</p>
+            <p>Enter the email and license key from your purchase to unlock unlimited deletions. The trial allows 15 deletions.</p>
+            <input
+              type="email"
+              value={email}
+              placeholder="you@example.com"
+              onChange={(e) => { setEmail(e.target.value); setError(""); }}
+            />
             <input
               type="text"
               value={key}
-              placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"
+              placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXXXX"
               onChange={(e) => { setKey(e.target.value.toUpperCase()); setError(""); }}
             />
             {error && <p style={{ color: "var(--red)" }}>{error}</p>}
