@@ -16,8 +16,8 @@ export function useLicense() {
     });
   }, []);
 
-  const register = async (key) => {
-    const ok = await api.validateLicense(key.trim());
+  const register = async (key, email) => {
+    const ok = await api.validateLicense(key.trim(), email.trim());
     if (ok) {
       localStorage.setItem(K.reg, "true");
       localStorage.setItem(K.name, "Registered User");
