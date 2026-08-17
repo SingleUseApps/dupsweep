@@ -323,10 +323,10 @@ button { font-family: inherit; cursor: default; }
 .sheet h2 { margin: 0 0 6px; font-size: 16px; }
 .sheet p { font-size: 12px; color: var(--secondary); line-height: 1.5; }
 .sheet-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
-.sheet input[type=text] {
+.sheet input[type=text], .sheet input[type=email] {
   width: 100%; padding: 7px 10px; font-size: 13px; font-family: "SF Mono", monospace;
   border: 1px solid var(--border); border-radius: 6px; background: var(--control-bg); color: var(--text);
-  text-align: center; letter-spacing: 1px;
+  text-align: center; letter-spacing: 1px; display: block; margin-bottom: 8px;
 }
 
 .filter-field { margin: 12px 0; text-align: left; }

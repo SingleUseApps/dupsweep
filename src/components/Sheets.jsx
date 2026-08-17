@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getVersion } from "@tauri-apps/api/app";
 import { formatBytes, openLicensePage } from "../api";
 
 export function CleanAllSheet({ count, bytes, onClean, onCancel }) {
@@ -176,6 +177,31 @@ export function RegisterAlert({ onClose }) {
         <div className="sheet-row">
           <button className="btn-secondary" onClick={() => openLicensePage()}>Get a License →</button>
           <button className="btn-primary" onClick={onClose}>OK</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function AboutSheet({ onClose, registered, registeredEmail }) {
+  const [version, setVersion] = useState("");
+
+  useEffect(() => {
+    getVersion().then(setVersion).catch(() => {});
+  }, []);
+
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="sheet" onClick={(e) => e.stopPropagation()}>
+        <h2>About DupSweep</h2>
+        <p>DupSweep{version ? ` v${version}` : ""}</p>
+        <p>
+          {registered
+            ? <>Registered for perpetuity to <b>{registeredEmail}</b>.</>
+            : "Trial Version — not yet registered."}
+        </p>
+        <div className="sheet-row">
+          <button className="btn-primary" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>

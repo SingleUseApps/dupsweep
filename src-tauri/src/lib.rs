@@ -397,6 +397,40 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
             app.manage(ScanState { stop: Arc::new(AtomicBool::new(false)) });
+
+            // Custom app menu: swap the native "About" panel for our own dialog
+            // (so it can show live registration state), keep Edit/Window intact
+            // so text-field shortcuts (copy/paste/undo) keep working.
+            use tauri::menu::{Menu, MenuItem, SubmenuBuilder};
+            let about_item = MenuItem::with_id(app, "about-dupsweep", "About DupSweep", true, None::<&str>)?;
+            let app_menu = SubmenuBuilder::new(app, "DupSweep")
+                .item(&about_item)
+                .separator()
+                .quit()
+                .build()?;
+            let edit_menu = SubmenuBuilder::new(app, "Edit")
+                .undo()
+                .redo()
+                .separator()
+                .cut()
+                .copy()
+                .paste()
+                .select_all()
+                .build()?;
+            let window_menu = SubmenuBuilder::new(app, "Window")
+                .minimize()
+                .close_window()
+                .build()?;
+            let menu = Menu::with_items(app, &[&app_menu, &edit_menu, &window_menu])?;
+            app.set_menu(menu)?;
+
+            let handle = app.handle().clone();
+            app.on_menu_event(move |_app, event| {
+                if event.id() == "about-dupsweep" {
+                    let _ = handle.emit("show-about", ());
+                }
+            });
+
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
