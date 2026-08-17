@@ -1,5 +1,5 @@
 import { useApp } from "../store/AppProvider";
-import { CleanAllSheet, MergeSheet, MergeAllSheet, PhotoDeleteSheet, LicenseSheet, RegisterAlert, FiltersSheet } from "./Sheets";
+import { CleanAllSheet, MergeSheet, MergeAllSheet, PhotoDeleteSheet, LicenseSheet, RegisterAlert, FiltersSheet, AboutSheet } from "./Sheets";
 import { DiffSheet } from "./FolderGroups";
 import { HelpWindow } from "./Help";
 import { SettingsWindow } from "./Settings";
@@ -26,6 +26,7 @@ export function DialogHost() {
           onValidate={async (k, email) => { const ok = await register(k, email); if (ok) close(); return ok; }} />
       )}
       {dialog?.type === "register" && <RegisterAlert onClose={close} />}
+      {dialog?.type === "about" && <AboutSheet registered={license.registered} registeredEmail={license.email} onClose={close} />}
       {dialog?.type === "filters" && <FiltersSheet value={scanFilters} onChange={setScanFilters} onClose={close} />}
       {dialog?.type === "help" && <HelpWindow onClose={close} />}
       {dialog?.type === "settings" && <SettingsWindow priority={photoPriority} onChange={setPhotoPriority} onClose={close} />}

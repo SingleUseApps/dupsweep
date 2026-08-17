@@ -35,6 +35,11 @@ export function onProgress(handler) {
   return listen("scan-progress", (e) => handler(e.payload));
 }
 
+// Fired when the user picks "About DupSweep" from the native app menu.
+export function onShowAbout(handler) {
+  return listen("show-about", () => handler());
+}
+
 // Native folder/destination pickers.
 export async function pickFolders(multiple = true) {
   const r = await open({ directory: true, multiple, canCreateDirectories: true });

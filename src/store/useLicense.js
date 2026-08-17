@@ -2,16 +2,17 @@ import { useState, useEffect } from "react";
 import { api } from "../api";
 
 const TRIAL_LIMIT = 15;
-const K = { reg: "DupSweep_IsRegistered", name: "DupSweep_RegisteredName", trial: "DupSweep_TrialDeletions" };
+const K = { reg: "DupSweep_IsRegistered", name: "DupSweep_RegisteredName", email: "DupSweep_RegisteredEmail", trial: "DupSweep_TrialDeletions" };
 
 // Trial + registration. Trial allows 15 deletions; a valid key unlocks PRO.
 export function useLicense() {
-  const [license, setLicense] = useState({ registered: false, name: "Trial Version", trial: 0 });
+  const [license, setLicense] = useState({ registered: false, name: "Trial Version", email: "", trial: 0 });
 
   useEffect(() => {
     setLicense({
       registered: localStorage.getItem(K.reg) === "true",
       name: localStorage.getItem(K.name) || "Trial Version",
+      email: localStorage.getItem(K.email) || "",
       trial: parseInt(localStorage.getItem(K.trial) || "0", 10),
     });
   }, []);
@@ -21,13 +22,15 @@ export function useLicense() {
     if (ok) {
       localStorage.setItem(K.reg, "true");
       localStorage.setItem(K.name, "Registered User");
-      setLicense((l) => ({ ...l, registered: true, name: "Registered User" }));
+      localStorage.setItem(K.email, email.trim());
+      setLicense((l) => ({ ...l, registered: true, name: "Registered User", email: email.trim() }));
     }
     return ok;
   };
   const deactivate = () => {
     localStorage.setItem(K.reg, "false");
-    setLicense((l) => ({ ...l, registered: false, name: "Trial Version" }));
+    localStorage.removeItem(K.email);
+    setLicense((l) => ({ ...l, registered: false, name: "Trial Version", email: "" }));
   };
   const recordDeletion = () =>
     setLicense((l) => {

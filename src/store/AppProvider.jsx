@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef, useCallback } from "react";
-import { api, onProgress, pickFolders, pickDestination, baseName, joinPath } from "../api";
+import { api, onProgress, onShowAbout, pickFolders, pickDestination, baseName, joinPath } from "../api";
 import { useLicense } from "./useLicense";
 import { useFilters } from "./useFilters";
 
@@ -55,6 +55,10 @@ export function AppProvider({ children }) {
   useEffect(() => { localStorage.setItem("DupSweep_photoPriority", JSON.stringify(photoPriority)); }, [photoPriority]);
   useEffect(() => {
     const un = onProgress((p) => setProgress(p));
+    return () => un.then((f) => f());
+  }, []);
+  useEffect(() => {
+    const un = onShowAbout(() => setDialog({ type: "about" }));
     return () => un.then((f) => f());
   }, []);
 
