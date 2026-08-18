@@ -4,7 +4,7 @@
 
 Stop guessing which files are safe to delete. DupSweep verifies every match byte-for-byte — every deletion is recoverable. Scans run on your machine; file contents are not uploaded.
 
-**Website:** [www.dupsweep.com](https://www.dupsweep.com/)
+**Website:** [www.dupsweep.com](https://www.dupsweep.com/) · [Mac](https://www.dupsweep.com/mac/) · [Windows](https://www.dupsweep.com/windows/) · [Photos](https://www.dupsweep.com/photos/)
 
 **Download**
 - [macOS (Universal)](https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-macos.dmg)

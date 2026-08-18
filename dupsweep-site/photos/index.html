@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DupSweep Photos — Find Similar Photos, Not Just Exact Copies</title>
+<meta name="description" content="DupSweep groups visually similar photos with dHash and pHash, not only identical files. Review bursts, exports, and chat compressions. Mac and Windows.">
+<link rel="canonical" href="https://www.dupsweep.com/photos/">
+<meta name="theme-color" content="#1F7A70">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DupSweep">
+<meta property="og:url" content="https://www.dupsweep.com/photos/">
+<meta property="og:title" content="DupSweep Photos — Find Similar Photos, Not Just Exact Copies">
+<meta property="og:description" content="Perceptual hashing (dHash + pHash) groups near-duplicate photos. You choose what to keep. Deletions go to Trash.">
+<meta property="og:image" content="https://www.dupsweep.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"DupSweep","url":"https://www.dupsweep.com/photos/","applicationCategory":"UtilitiesApplication","operatingSystem":"macOS, Windows","offers":{"@type":"Offer","price":"5.00","priceCurrency":"EUR"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a class="brand" href="/"><span class="icon">🧹</span> DupSweep</a>
+      <ul class="nav-links">
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/mac/">Mac</a></li>
+        <li><a href="/windows/">Windows</a></li>
+        <li><a href="/photos/" class="current">Photos</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+        <li><a href="/#license">Get License</a></li>
+      </ul>
+      <a class="nav-cta" href="/#download">Download</a>
+    </nav>
+
+    <header class="page-hero">
+      <h1>Find <span class="accent">similar photos</span>, not just identical files</h1>
+      <p>Byte-identical copies are easy. The pile is usually near-duplicates: bursts, a resized export, a WhatsApp compress. DupSweep’s photo mode uses perceptual hashing (dHash + pHash) to group those.</p>
+      <div class="page-cta">
+        <a class="btn-primary" href="/#download">Download DupSweep</a>
+        <a class="btn-secondary" href="/#license">Get a lifetime license — 5€</a>
+      </div>
+    </header>
+  </div>
+
+  <div class="container prose">
+    <h2>Exact file vs similar photo</h2>
+    <p><strong>File mode</strong> uses SHA-256. Two files are duplicates only if every byte matches. A JPEG you re-saved, or a screenshot of the same picture, will not match.</p>
+    <p><strong>Photo mode</strong> looks at how the image appears. dHash and pHash turn the picture into a small fingerprint. Photos that look the same — cropped a little, resized, re-exported — land in the same group even when the files differ.</p>
+    <p>You still choose what to keep. Deletions go to Trash / Recycle Bin. Nothing is removed automatically.</p>
+
+    <h2>Screenshots</h2>
+    <p>Interface captures will sit here. Drop PNGs in <code>/photos/</code> as <code>groups.png</code> and <code>compare.png</code> when you have them.</p>
+    <div class="shot-grid">
+      <figure class="shot">
+        <div class="shot-placeholder">Screenshot coming soon<br><code>photos/groups.png</code> — similar-photo groups</div>
+        <figcaption>Near-duplicates clustered so you can keep the best copy.</figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="shot-placeholder">Screenshot coming soon<br><code>photos/compare.png</code> — comparing two similar shots</div>
+        <figcaption>Preview before you send extras to Trash.</figcaption>
+      </figure>
+    </div>
+
+    <h2>When this helps</h2>
+    <div class="use-grid">
+      <div class="use-card">
+        <h3>Camera bursts</h3>
+        <p>Ten frames of the same pose. Keep the sharp one; drop the rest without hunting by filename.</p>
+      </div>
+      <div class="use-card">
+        <h3>Exports and edits</h3>
+        <p>A full-resolution original next to a resized JPEG you sent to someone. They are not byte-identical; they still look the same.</p>
+      </div>
+      <div class="use-card">
+        <h3>Chat and AirDrop copies</h3>
+        <p>WhatsApp, Messenger, and AirDrop often recompress. Photo mode still groups them with the original when they look alike.</p>
+      </div>
+      <div class="use-card">
+        <h3>Screenshots of photos</h3>
+        <p>A screenshot of an image on screen will not match SHA-256. Perceptual hashes often still group it.</p>
+      </div>
+    </div>
+
+    <h2>What it does not do</h2>
+    <ul>
+      <li>It does not upload your library. Hashing runs on the computer.</li>
+      <li>It is not a face-recognition or “people in this photo” tool.</li>
+      <li>Very different crops or heavy filters may not group. That is expected — better a miss than merging unrelated pictures.</li>
+      <li>Cloud-only placeholders (iCloud / OneDrive files not downloaded) are unreliable. Scan local copies.</li>
+    </ul>
+
+    <div class="page-cta">
+      <a class="btn-primary" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-macos.dmg">⌘ Mac</a>
+      <a class="btn-primary" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-windows-setup.exe">⊞ Windows</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="topic-links">
+      <a href="/mac/">Mac</a>
+      <a href="/windows/">Windows</a>
+      <a class="current" href="/photos/">Similar photos</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 DupSweep. Questions? <a href="mailto:support@dupsweep.com">support@dupsweep.com</a></p>
+      <button type="button" class="contact-btn" id="openContact">Contact / Feature Request</button>
+    </div>
+  </footer>
+
+  <div class="contact-overlay" id="contactModal">
+    <div class="contact-card">
+      <button type="button" class="close" id="closeContact" aria-label="Close">×</button>
+      <h2>Contact / Feature Request</h2>
+      <p class="hint">Support questions or ideas for a new feature.</p>
+      <form id="contactForm">
+        <label for="contactType">Type</label>
+        <select id="contactType" required>
+          <option value="support">Support</option>
+          <option value="feature">Feature Request</option>
+        </select>
+        <label for="contactName">Name</label>
+        <input type="text" id="contactName" required maxlength="80" placeholder="Your name">
+        <label for="contactEmail">E-mail</label>
+        <input type="email" id="contactEmail" required maxlength="120" placeholder="Your e-mail">
+        <label for="contactTitle">Title</label>
+        <input type="text" id="contactTitle" required maxlength="120" placeholder="Short topic">
+        <label for="contactDescription">Description</label>
+        <textarea id="contactDescription" required maxlength="4000" placeholder="Describe the problem or the feature you want"></textarea>
+        <p class="contact-status" id="contactStatus" hidden></p>
+        <button type="submit" class="send" id="contactSubmit">Send</button>
+      </form>
+    </div>
+  </div>
+  <script src="/contact.js"></script>
+</body>
+</html>
