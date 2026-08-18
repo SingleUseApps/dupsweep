@@ -302,6 +302,9 @@
   .buy-shell {
     background: #fff; border-radius: 16px; padding: 28px; max-width: 420px; margin: 28px auto 0;
   }
+  .pay-methods-note {
+    margin: 14px 0 0; font-size: 13px; line-height: 1.45; color: var(--text-dim);
+  }
   .buy-shell select {
     width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
     font-size: 14px; margin-bottom: 12px; color: var(--text-main); background: #fff;
@@ -544,6 +547,7 @@
       <p class="section-sub">Pay <span class="price-tag">5€</span> once for a lifetime Pro license.</p>
       <div class="buy-shell">
         <div id="buyWidget" class="buy-widget" data-app="dupsweep"></div>
+        <p class="pay-methods-note">Credit card, MB WAY, and other methods. You don’t need a Stripe account.</p>
       </div>
     </div>
   </section>
@@ -580,7 +584,7 @@
     </div>
   </div>
 
-  <script src="https://singleuseapps.com/buy-widget.js?v=3"></script>
+  <script src="https://singleuseapps.com/buy-widget.js?v=4"></script>
   <script>
     const CONTACT_API = "https://singleuseapps.com/api/contact";
     const modal = document.getElementById("contactModal");
