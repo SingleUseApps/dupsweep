@@ -112,6 +112,41 @@
     border-top: 1px solid var(--border); margin-top: 40px;
   }
   footer a { color: var(--teal); font-weight: 600; text-decoration: none; }
+  footer .contact-btn {
+    display: inline-block; margin-top: 12px; background: transparent;
+    color: var(--teal); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+
+  .contact-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(26,30,29,0.45);
+    z-index: 40; align-items: center; justify-content: center; padding: 20px;
+  }
+  .contact-overlay.open { display: flex; }
+  .contact-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px; width: 100%; max-width: 440px; position: relative;
+    color: var(--text-main); text-align: left;
+  }
+  .contact-card h2 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+  .contact-card .hint { font-size: 13px; color: var(--text-dim); margin-bottom: 18px; }
+  .contact-card label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+  .contact-card input, .contact-card select, .contact-card textarea {
+    width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+    font-size: 14px; font-family: inherit; color: var(--text-main); background: #fff;
+  }
+  .contact-card textarea { resize: vertical; min-height: 110px; }
+  .contact-card .close {
+    position: absolute; top: 12px; right: 14px; border: 0; background: none;
+    font-size: 24px; cursor: pointer; color: var(--text-dim);
+  }
+  .contact-status { font-size: 13px; margin-top: 10px; color: var(--text-dim); }
+  .contact-status.ok { color: var(--teal); }
+  .contact-status.err { color: var(--coral); }
+  .contact-card .send {
+    width: 100%; margin-top: 16px; background: var(--teal); color: #fff;
+    border: 0; border-radius: 10px; padding: 12px; font-weight: 700; cursor: pointer;
+  }
 
   @media (max-width: 640px) {
     .hero h1 { font-size: 32px; }
@@ -196,9 +231,93 @@
   <footer>
     <div class="container">
       <p>&copy; 2026 DupSweep. Questions? <a href="mailto:support@dupsweep.com">support@dupsweep.com</a></p>
+      <button type="button" class="contact-btn" id="openContact">Contact / Feature Request</button>
     </div>
   </footer>
 
+  <div class="contact-overlay" id="contactModal">
+    <div class="contact-card">
+      <button type="button" class="close" id="closeContact" aria-label="Close">×</button>
+      <h2>Contact / Feature Request</h2>
+      <p class="hint">Support questions or ideas for a new feature.</p>
+      <form id="contactForm">
+        <label for="contactType">Type</label>
+        <select id="contactType" required>
+          <option value="support">Support</option>
+          <option value="feature">Feature Request</option>
+        </select>
+        <label for="contactName">Name</label>
+        <input type="text" id="contactName" required maxlength="80" placeholder="Your name">
+        <label for="contactEmail">E-mail</label>
+        <input type="email" id="contactEmail" required maxlength="120" placeholder="Your e-mail">
+        <label for="contactTitle">Title</label>
+        <input type="text" id="contactTitle" required maxlength="120" placeholder="Short topic">
+        <label for="contactDescription">Description</label>
+        <textarea id="contactDescription" required maxlength="4000" placeholder="Describe the problem or the feature you want"></textarea>
+        <p class="contact-status" id="contactStatus" hidden></p>
+        <button type="submit" class="send" id="contactSubmit">Send</button>
+      </form>
+    </div>
+  </div>
+
   <script src="https://singleuseapps.com/buy-widget.js?v=2"></script>
+  <script>
+    const CONTACT_API = "https://singleuseapps.com/api/contact";
+    const modal = document.getElementById("contactModal");
+    const statusEl = document.getElementById("contactStatus");
+    const form = document.getElementById("contactForm");
+    const submitBtn = document.getElementById("contactSubmit");
+
+    function setStatus(text, kind) {
+      if (!text) { statusEl.hidden = true; statusEl.textContent = ""; return; }
+      statusEl.hidden = false;
+      statusEl.textContent = text;
+      statusEl.className = "contact-status" + (kind ? " " + kind : "");
+    }
+    function openContact() {
+      modal.classList.add("open");
+      setStatus("");
+    }
+    function closeContact() {
+      modal.classList.remove("open");
+    }
+    document.getElementById("openContact").addEventListener("click", openContact);
+    document.getElementById("closeContact").addEventListener("click", closeContact);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeContact(); });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const type = document.getElementById("contactType").value;
+      const name = document.getElementById("contactName").value.trim();
+      const email = document.getElementById("contactEmail").value.trim();
+      const title = document.getElementById("contactTitle").value.trim();
+      const description = document.getElementById("contactDescription").value.trim();
+      const payload = { type, app: "dupsweep", name, email, title, description };
+      submitBtn.disabled = true;
+      setStatus("Sending…");
+      try {
+        const res = await fetch(CONTACT_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || "Could not send the message.");
+        setStatus("Sent. We'll get back to you by email.", "ok");
+        form.reset();
+      } catch (err) {
+        setStatus((err.message || "Could not send.") + " Opening your mail app as a fallback…", "err");
+        const typeLabel = type === "feature" ? "Feature Request" : "Support";
+        const subject = encodeURIComponent("[" + typeLabel + "] " + title);
+        const body = encodeURIComponent(
+          "Type: " + typeLabel + "\nApp: DupSweep\nName: " + name + "\nEmail: " + email +
+          "\n\n--- Description ---\n\n" + description
+        );
+        window.location.href = "mailto:support@dupsweep.com?subject=" + subject + "&body=" + body;
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>
