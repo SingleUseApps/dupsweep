@@ -368,6 +368,9 @@
   .faq-list code {
     font-size: 13px; background: var(--bg); padding: 1px 6px; border-radius: 4px;
   }
+  .faq-more-list {
+    display: flex; flex-direction: column; gap: 10px; margin: 0 0 14px;
+  }
 
   @media (max-width: 640px) {
     .hero h1 { font-size: 32px; }
@@ -446,24 +449,12 @@
       <p class="section-sub">How DupSweep works, what the trial includes, and how licenses work.</p>
       <div class="faq-list">
         <details open>
-          <summary>What does DupSweep actually do?</summary>
-          <p>DupSweep finds duplicate files, duplicate folders, and visually similar photos on your computer so you can free space without guessing. You choose what to remove — it never deletes anything on its own.</p>
-        </details>
-        <details>
           <summary>How does it know two files are duplicates?</summary>
           <p>For files, it first groups likely matches by name and size, then confirms with SHA-256 hashing. Two files only count as duplicates if their contents match byte-for-byte.</p>
         </details>
         <details>
-          <summary>Does it only match by name or size?</summary>
-          <p>No. Name and size are only a first pass. A file duplicate is always confirmed with SHA-256. Photos can also match by how they look (perceptual hashing), not only as identical copies.</p>
-        </details>
-        <details>
           <summary>Will it delete files forever, or can I get them back?</summary>
           <p>Deletions go to the system Trash on macOS or the Recycle Bin on Windows — not a permanent wipe. You can restore from there, and DupSweep also has in-app Undo.</p>
-        </details>
-        <details>
-          <summary>Can I undo a cleanup after I close the app?</summary>
-          <p>In-app Undo (⌘Z on Mac, Ctrl+Z on Windows) works while DupSweep is open. After you quit, files stay in Trash / Recycle Bin until you empty it, so you can still restore them there. Operation logs (JSON, HTML, PDF) record what was removed.</p>
         </details>
         <details>
           <summary>Does it work on both Mac and Windows?</summary>
@@ -478,52 +469,70 @@
           <p>You get unlimited deletions. Features are the same. After payment you receive a license key on the site and by email; enter that key with your email in the app to unlock Pro.</p>
         </details>
         <details>
-          <summary>Is 5€ a one-time payment or a subscription?</summary>
-          <p>One-time payment for a lifetime license. There is no subscription.</p>
-        </details>
-        <details>
           <summary>Can it find similar photos, not just identical copies?</summary>
           <p>Yes. Photo mode uses perceptual hashing (dHash + pHash), so near-duplicates — resized or slightly edited shots — can be grouped even when the files are not byte-identical.</p>
         </details>
-        <details>
-          <summary>Can it find duplicate folders, not only files?</summary>
-          <p>Yes. DupSweep clusters folders whose contents match and can merge them in place, copy the merge into a new folder, or let you review items one by one.</p>
-        </details>
-        <details>
-          <summary>Does it scan USB drives, external disks, and network shares?</summary>
-          <p>You pick the folders to scan. USB and external drives work if they are mounted. Network shares usually work if they show up as folders on your computer; speed then depends on the network.</p>
-        </details>
-        <details>
-          <summary>Will it mess with iCloud / OneDrive files that aren’t fully downloaded?</summary>
-          <p>DupSweep reads what is on disk. Cloud-only placeholders (files that are not actually downloaded) can fail or trigger a download. Prefer scanning local copies, or exclude those cloud folders.</p>
-        </details>
-        <details>
-          <summary>Does any of my data leave my computer?</summary>
-          <p>Scans and hashing run on your machine. File contents are not uploaded. Buying a license uses Stripe and email only for payment and the key. The optional contact form sends only what you type.</p>
-        </details>
-        <details>
-          <summary>How do I activate the license after I pay?</summary>
-          <p>After a successful payment the key is shown on this site and emailed to you. In DupSweep, open the license / register dialog and enter the same email you paid with plus the key.</p>
-        </details>
-        <details>
-          <summary>Can I use one license on more than one computer?</summary>
-          <p>The key is tied to your email, not to a specific device. You can enter the same email and key on your own Mac and PC. It is a personal lifetime license, not a team or seat pack.</p>
-        </details>
-        <details>
-          <summary>What if I reinstall the app or get a new machine?</summary>
-          <p>Install DupSweep again and enter the same email and key. If you lost the key, check the purchase email or use the contact form on this page.</p>
-        </details>
-        <details>
-          <summary>Does it scan system folders or application files?</summary>
-          <p>It scans the folders you select. It does not specially lock the operating system, so avoid system directories. You can exclude folders (for example <code>node_modules</code> or <code>.git</code>) and file types before you clean.</p>
-        </details>
-        <details>
-          <summary>Will a large scan slow my computer down?</summary>
-          <p>A large scan uses CPU and disk while it hashes files. You can keep working; it may feel slower on spinning hard drives or huge photo libraries. Size and include/exclude filters shrink the job.</p>
-        </details>
-        <details>
-          <summary>Where do I get support or suggest a feature?</summary>
-          <p>Email <a href="mailto:support@dupsweep.com">support@dupsweep.com</a> or use the Contact / Feature Request button at the bottom of this page. Choose Support or Feature Request so the message is tagged correctly.</p>
+
+        <details class="faq-more">
+          <summary>More questions</summary>
+          <div class="faq-more-list">
+            <details>
+              <summary>What does DupSweep actually do?</summary>
+              <p>DupSweep finds duplicate files, duplicate folders, and visually similar photos on your computer so you can free space without guessing. You choose what to remove — it never deletes anything on its own.</p>
+            </details>
+            <details>
+              <summary>Does it only match by name or size?</summary>
+              <p>No. Name and size are only a first pass. A file duplicate is always confirmed with SHA-256. Photos can also match by how they look (perceptual hashing), not only as identical copies.</p>
+            </details>
+            <details>
+              <summary>Can I undo a cleanup after I close the app?</summary>
+              <p>In-app Undo (⌘Z on Mac, Ctrl+Z on Windows) works while DupSweep is open. After you quit, files stay in Trash / Recycle Bin until you empty it, so you can still restore them there. Operation logs (JSON, HTML, PDF) record what was removed.</p>
+            </details>
+            <details>
+              <summary>Is 5€ a one-time payment or a subscription?</summary>
+              <p>One-time payment for a lifetime license. There is no subscription.</p>
+            </details>
+            <details>
+              <summary>Can it find duplicate folders, not only files?</summary>
+              <p>Yes. DupSweep clusters folders whose contents match and can merge them in place, copy the merge into a new folder, or let you review items one by one.</p>
+            </details>
+            <details>
+              <summary>Does it scan USB drives, external disks, and network shares?</summary>
+              <p>You pick the folders to scan. USB and external drives work if they are mounted. Network shares usually work if they show up as folders on your computer; speed then depends on the network.</p>
+            </details>
+            <details>
+              <summary>Will it mess with iCloud / OneDrive files that aren’t fully downloaded?</summary>
+              <p>DupSweep reads what is on disk. Cloud-only placeholders (files that are not actually downloaded) can fail or trigger a download. Prefer scanning local copies, or exclude those cloud folders.</p>
+            </details>
+            <details>
+              <summary>Does any of my data leave my computer?</summary>
+              <p>Scans and hashing run on your machine. File contents are not uploaded. Buying a license uses Stripe and email only for payment and the key. The optional contact form sends only what you type.</p>
+            </details>
+            <details>
+              <summary>How do I activate the license after I pay?</summary>
+              <p>After a successful payment the key is shown on this site and emailed to you. In DupSweep, open the license / register dialog and enter the same email you paid with plus the key.</p>
+            </details>
+            <details>
+              <summary>Can I use one license on more than one computer?</summary>
+              <p>The key is tied to your email, not to a specific device. You can enter the same email and key on your own Mac and PC. It is a personal lifetime license, not a team or seat pack.</p>
+            </details>
+            <details>
+              <summary>What if I reinstall the app or get a new machine?</summary>
+              <p>Install DupSweep again and enter the same email and key. If you lost the key, check the purchase email or use the contact form on this page.</p>
+            </details>
+            <details>
+              <summary>Does it scan system folders or application files?</summary>
+              <p>It scans the folders you select. It does not specially lock the operating system, so avoid system directories. You can exclude folders (for example <code>node_modules</code> or <code>.git</code>) and file types before you clean.</p>
+            </details>
+            <details>
+              <summary>Will a large scan slow my computer down?</summary>
+              <p>A large scan uses CPU and disk while it hashes files. You can keep working; it may feel slower on spinning hard drives or huge photo libraries. Size and include/exclude filters shrink the job.</p>
+            </details>
+            <details>
+              <summary>Where do I get support or suggest a feature?</summary>
+              <p>Email <a href="mailto:support@dupsweep.com">support@dupsweep.com</a> or use the Contact / Feature Request button at the bottom of this page. Choose Support or Feature Request so the message is tagged correctly.</p>
+            </details>
+          </div>
         </details>
       </div>
     </div>
