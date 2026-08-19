@@ -6,6 +6,8 @@ Stop guessing which files are safe to delete. DupSweep verifies every match byte
 
 **Website:** [www.dupsweep.com](https://www.dupsweep.com/) · [Mac](https://www.dupsweep.com/mac/) · [Windows](https://www.dupsweep.com/windows/) · [Photos](https://www.dupsweep.com/photos/)
 
+**Roadmap:** [what’s built vs missing](ROADMAP.md) (vs FileLister v1.21.0).
+
 **Download**
 - [macOS (Universal)](https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-macos.dmg)
 - [Windows](https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-windows-setup.exe)
