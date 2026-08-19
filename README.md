@@ -18,6 +18,7 @@ Free trial — 15 deletions. **5€** one-time lifetime license (card, MB WAY, K
 - **Duplicate folder clustering** — finds whole duplicated folder structures, with in-place or copy-based merge.
 - **Visual photo similarity** — perceptual hashing (dHash + pHash) catches near-duplicates, not just identical copies.
 - **Undo, always** — deletions go to the system Trash / Recycle Bin, with in-app Undo and operation history.
+- **OneDrive folder** — scan the OneDrive folder on disk like any other path (make online-only files available locally first).
 
 More detail: [FAQ on the site](https://www.dupsweep.com/#faq). Support: [support@dupsweep.com](mailto:support@dupsweep.com).
 

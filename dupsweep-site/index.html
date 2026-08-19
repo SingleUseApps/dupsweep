@@ -125,6 +125,14 @@
     },
     {
       "@type": "Question",
+      "name": "Can it find duplicate files on OneDrive?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Scan the OneDrive folder on your Mac or PC like any other folder. Matches are still SHA-256 verified. Files that are online-only (not downloaded) are placeholders — make them available offline, then scan. DupSweep does not sign in to your Microsoft account; it reads what is on disk."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "Can it find duplicate folders, not only files?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -265,6 +273,11 @@
           <h3>Undo, Always</h3>
           <p>Every deletion goes to the system Trash first, with full operation history and one-key undo.</p>
         </div>
+        <div class="feature-card">
+          <div class="feature-icon">☁️</div>
+          <h3>OneDrive folder</h3>
+          <p>Point DupSweep at your OneDrive folder and find duplicates the same way as on any other disk. Make online-only files available locally first, then scan.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -309,13 +322,17 @@
           <p>You get unlimited deletions. Features are the same. After payment you receive a license key on the site and by email; enter that key with your email in the app to unlock Pro.</p>
         </details>
         <details>
-          <summary>Can it find similar photos, not just identical copies?</summary>
-          <p>Yes. Photo mode uses perceptual hashing (dHash + pHash), so near-duplicates — resized or slightly edited shots — can be grouped even when the files are not byte-identical.</p>
+          <summary>Can it find duplicate files on OneDrive?</summary>
+          <p>Yes. Scan the OneDrive folder on your Mac or PC like any other folder. Matches are still SHA-256 verified. Files that are online-only (not downloaded) are placeholders — make them available offline, then scan. DupSweep does not sign in to your Microsoft account; it reads what is on disk.</p>
         </details>
 
         <details class="faq-more">
           <summary>More questions</summary>
           <div class="faq-more-list">
+            <details>
+              <summary>Can it find similar photos, not just identical copies?</summary>
+              <p>Yes. Photo mode uses perceptual hashing (dHash + pHash), so near-duplicates — resized or slightly edited shots — can be grouped even when the files are not byte-identical.</p>
+            </details>
             <details>
               <summary>What does DupSweep actually do?</summary>
               <p>DupSweep finds duplicate files, duplicate folders, and visually similar photos on your computer so you can free space without guessing. You choose what to remove — it never deletes anything on its own.</p>
