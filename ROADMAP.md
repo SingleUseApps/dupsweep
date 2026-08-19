@@ -6,23 +6,18 @@ Status: ✅ Done · 🚧 In progress · 📋 Planned · ⏸ On hold
 
 Update this file when something lands or a plan changes.
 
+One timeline. Tables below are the detail.
+
 ```mermaid
 timeline
-    title DupSweep vs FileLister
-    section FileLister Swift
-        v1.0 to v1.10 : Local Files Folders Photos
-                      : License undo logs
-        v1.11 to v1.21 : OneDrive Files Folders Photos
-                       : Remote connections
-    section DupSweep Tauri
-        Now : Local Files Folders Photos on Mac and Windows
-            : On-disk OneDrive folder
-            : Site FAQ SEO Stripe test
-        Next : Ignore and keep rules
-             : Photos size filter and auto-scan
-             : Screenshots then Stripe live
-        Later : Cloud login Files then Folders then Photos
-              : Other clouds and extras
+    title DupSweep
+    Now : Local app on Mac and Windows
+        : Site and Stripe test checkout
+    Next : Ignore flag and keep rules
+         : Photos size filter and auto-scan
+         : Screenshots then Stripe live
+    Later : OneDrive login Files then Folders then Photos
+          : Other clouds and extras
 ```
 
 ---
@@ -74,25 +69,7 @@ Port these from FileLister before cloud work.
 
 ### Cloud login — later
 
-FileLister’s OneDrive stack. DupSweep site must **not** claim this until it ships.
-
-```mermaid
-timeline
-    title Cloud login (same order as FileLister)
-    section Prep
-        Entra app : Register Graph API
-        OAuth : Sign in and sign out
-        Picker : Choose OneDrive folders
-    section Modes
-        Files : Duplicates plus cloud recycle bin
-        Folders : Cluster in-place merge copy to new
-        Photos : Thumbnails plus pHash
-    section After
-        Remote bar : Local vs Remote
-        Multi-account : Keychain picker Settings
-```
-
-Suggested order (same as FileLister): **Files → Folders → Photos**.
+FileLister’s OneDrive stack. DupSweep site must **not** claim this until it ships. Order: **Files → Folders → Photos**, then multi-connection.
 
 | Feature | Status | FileLister | Notes |
 |---|---|---|---|
@@ -154,33 +131,7 @@ Nice-to-haves from VibeCoding Ideas. Not required to match FileLister.
 
 ---
 
-## Suggested order
-
-```mermaid
-timeline
-    title What to do next
-    section 1 Local cleanup
-        Ignore flag : Exclude a copy from Clean All
-        Keep rules : Oldest newest largest or manual
-    section 2 Small parity
-        Photos size filter : Min and max like Files
-        Auto-scan : Start when a folder is added
-    section 3 Site
-        Screenshots : Landing Help and og image
-    section 4 Sell
-        Stripe live : Real 5 EUR purchases
-    section 5 Cloud login
-        Auth : Entra and OAuth
-        OneDrive Files : Duplicates and recycle bin
-        OneDrive Folders : Cluster and merge
-        OneDrive Photos : Graph thumbnails
-        Multi-connection : After single account works
-    section 6 After that
-        Other clouds : Google Drive iCloud Dropbox
-        Extras : Dashboard Finder extension audio
-```
-
-PayPal and automated deploys stay on hold (not on this timeline).
+PayPal and automated deploys stay on hold.
 
 ---
 
