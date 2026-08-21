@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/site.css?v=5">
 </head>
 <body>
   <div class="container">
@@ -57,34 +57,29 @@
     <p><strong>Photo mode</strong> looks at how the image appears. dHash and pHash turn the picture into a small fingerprint. Photos that look the same — cropped a little, resized, re-exported — land in the same group even when the files differ.</p>
     <p>You still choose what to keep. Deletions go to Trash / Recycle Bin. Nothing is removed automatically.</p>
 
-    <h2>Screenshots</h2>
-    <p>Interface captures will sit here. Drop PNGs in <code>/photos/</code> as <code>groups.png</code> and <code>compare.png</code> when you have them.</p>
-    <div class="shot-grid">
-      <figure class="shot">
-        <div class="shot-placeholder">Screenshot coming soon<br><code>photos/groups.png</code> — similar-photo groups</div>
-        <figcaption>Near-duplicates clustered so you can keep the best copy.</figcaption>
-      </figure>
-      <figure class="shot">
-        <div class="shot-placeholder">Screenshot coming soon<br><code>photos/compare.png</code> — comparing two similar shots</div>
-        <figcaption>Preview before you send extras to Trash.</figcaption>
-      </figure>
-    </div>
-
     <h2>When this helps</h2>
-    <div class="use-grid">
-      <div class="use-card">
-        <div class="use-visual use-visual-burst" aria-hidden="true">
-          <div class="burst-grid">
-            <figure class="burst-thumb keep"><img src="/photos/examples/burst-1.jpg" alt=""><span class="keep-badge">Keep</span></figure>
-            <figure class="burst-thumb"><img src="/photos/examples/burst-2.jpg" alt=""></figure>
-            <figure class="burst-thumb"><img src="/photos/examples/burst-3.jpg" alt=""></figure>
-            <figure class="burst-thumb"><img src="/photos/examples/burst-4.jpg" alt=""></figure>
-          </div>
+    <div class="use-list">
+      <article class="use-row">
+        <div class="use-copy">
+          <h3>Camera bursts</h3>
+          <p>Ten frames of the same pose. Keep the sharp one; drop the rest without hunting by filename.</p>
         </div>
-        <h3>Camera bursts</h3>
-        <p>Ten frames of the same pose. Keep the sharp one; drop the rest without hunting by filename.</p>
-      </div>
-      <div class="use-card">
+        <div class="use-visual use-visual-pair" aria-hidden="true">
+          <figure class="pair-thumb keep">
+            <img src="/photos/examples/burst-1.jpg" alt="">
+            <figcaption>Keep <span class="chip">sharp</span></figcaption>
+          </figure>
+          <figure class="pair-thumb">
+            <img src="/photos/examples/burst-2.jpg" alt="">
+            <figcaption>Near-duplicate</figcaption>
+          </figure>
+        </div>
+      </article>
+      <article class="use-row">
+        <div class="use-copy">
+          <h3>Exports and edits</h3>
+          <p>A full-resolution original next to a resized JPEG you sent to someone. They are not byte-identical; they still look the same.</p>
+        </div>
         <div class="use-visual use-visual-pair" aria-hidden="true">
           <figure class="pair-thumb">
             <img src="/photos/examples/export-original.jpg" alt="">
@@ -95,10 +90,12 @@
             <figcaption>Resized export <span class="chip">180&nbsp;KB</span></figcaption>
           </figure>
         </div>
-        <h3>Exports and edits</h3>
-        <p>A full-resolution original next to a resized JPEG you sent to someone. They are not byte-identical; they still look the same.</p>
-      </div>
-      <div class="use-card">
+      </article>
+      <article class="use-row">
+        <div class="use-copy">
+          <h3>Chat and AirDrop copies</h3>
+          <p>WhatsApp, Messenger, and AirDrop often recompress. Photo mode still groups them with the original when they look alike.</p>
+        </div>
         <div class="use-visual use-visual-pair" aria-hidden="true">
           <figure class="pair-thumb">
             <img src="/photos/examples/chat-original.jpg" alt="">
@@ -109,10 +106,12 @@
             <figcaption>Chat copy</figcaption>
           </figure>
         </div>
-        <h3>Chat and AirDrop copies</h3>
-        <p>WhatsApp, Messenger, and AirDrop often recompress. Photo mode still groups them with the original when they look alike.</p>
-      </div>
-      <div class="use-card">
+      </article>
+      <article class="use-row">
+        <div class="use-copy">
+          <h3>Screenshots of photos</h3>
+          <p>A screenshot of an image on screen will not match SHA-256. Perceptual hashes often still group it.</p>
+        </div>
         <div class="use-visual use-visual-pair" aria-hidden="true">
           <figure class="pair-thumb">
             <img src="/photos/examples/shot-original.jpg" alt="">
@@ -123,9 +122,7 @@
             <figcaption>Screenshot</figcaption>
           </figure>
         </div>
-        <h3>Screenshots of photos</h3>
-        <p>A screenshot of an image on screen will not match SHA-256. Perceptual hashes often still group it.</p>
-      </div>
+      </article>
     </div>
 
     <h2>What it does not do</h2>
