@@ -27,7 +27,7 @@ timeline
 
 ## Queue
 
-- [ ] **1. Ignore flag** — per file, skip that copy in Clean All without deleting it (FileLister v1.1).
+- [x] **1. Ignore flag** — per file, skip that copy in Clean All without deleting it (FileLister v1.1).
 - [ ] **2. Keep rules** — Files mode: keep oldest / newest / largest / manual (Photos already have keeper priority).
 - [ ] **3. Photos size filter** — min/max size, same as Files (FileLister v1.19).
 - [ ] **4. Auto-scan** — start a search when the user adds a folder (FileLister v1.1).
@@ -68,6 +68,7 @@ These match FileLister’s local product, plus Windows. Do not redo.
 | Help window | ✅ | Text only — no annotated screenshots |
 | Windows + universal macOS | ✅ | FileLister was macOS-only |
 | Scan OneDrive **folder on disk** | ✅ | No Microsoft login; online-only files must be downloaded first |
+| Ignore flag per file | ✅ | Excluded from Clean All; session-only (cleared on new scan) |
 
 ---
 
@@ -79,7 +80,7 @@ Port these from FileLister before cloud work.
 
 | Feature | Queue | Status | FileLister | Notes |
 |---|---|---|---|---|
-| Ignore flag per file | 1 | 📋 | ✅ v1.1 | Exclude a copy from Clean All without deleting it |
+| Ignore flag per file | 1 | ✅ | ✅ v1.1 | Exclude a copy from Clean All without deleting it |
 | Auto-select keep rules (oldest / newest / largest / manual) | 2 | 📋 | ✅ | Files mode only; Photos already have keeper priority |
 | Photos min/max size filter | 3 | 📋 | ✅ v1.19 | Size filter is Files-only today |
 | Auto-scan when a folder is added | 4 | 📋 | ✅ v1.1 | DupSweep waits for “Search for Duplicates” |
@@ -143,6 +144,7 @@ Nice-to-haves from VibeCoding Ideas. Not required to match FileLister. Only afte
 | SEO basics (www, canonical, sitemap, schema, README) | — | ✅ | |
 | Contact / Feature Request form | — | ✅ | |
 | OneDrive **folder** called out on the site | — | ✅ | Honest: on-disk only |
+| Photos “When this helps” visuals on `/photos/` | — | ✅ | Mockups for bursts / exports / chat / screenshots — independent of queue 5 |
 | Real UI screenshots on the site + `og:image` | 5 | 📋 | Waiting on captures |
 | Stripe **live** keys / real 5€ purchases | 6 | 📋 | Next when ready to sell |
 | Sign / notarize installers | 7 | 📋 | Gatekeeper / SmartScreen warn today |

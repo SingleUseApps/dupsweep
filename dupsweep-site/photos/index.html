@@ -7,9 +7,10 @@
 <meta name="description" content="DupSweep groups visually similar photos with dHash and pHash, not only identical files. Review bursts, exports, and chat compressions. Mac and Windows.">
 <link rel="canonical" href="https://www.dupsweep.com/photos/">
 <meta name="theme-color" content="#1F7A70">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-32.png?v=3" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DupSweep">
 <meta property="og:url" content="https://www.dupsweep.com/photos/">
@@ -72,18 +73,56 @@
     <h2>When this helps</h2>
     <div class="use-grid">
       <div class="use-card">
+        <div class="use-visual use-visual-burst" aria-hidden="true">
+          <div class="burst-grid">
+            <figure class="burst-thumb keep"><img src="/photos/examples/burst-1.jpg" alt=""><span class="keep-badge">Keep</span></figure>
+            <figure class="burst-thumb"><img src="/photos/examples/burst-2.jpg" alt=""></figure>
+            <figure class="burst-thumb"><img src="/photos/examples/burst-3.jpg" alt=""></figure>
+            <figure class="burst-thumb"><img src="/photos/examples/burst-4.jpg" alt=""></figure>
+          </div>
+        </div>
         <h3>Camera bursts</h3>
         <p>Ten frames of the same pose. Keep the sharp one; drop the rest without hunting by filename.</p>
       </div>
       <div class="use-card">
+        <div class="use-visual use-visual-pair" aria-hidden="true">
+          <figure class="pair-thumb">
+            <img src="/photos/examples/export-original.jpg" alt="">
+            <figcaption>Original <span class="chip">4.2&nbsp;MB</span></figcaption>
+          </figure>
+          <figure class="pair-thumb">
+            <img src="/photos/examples/export-resized.jpg" alt="">
+            <figcaption>Resized export <span class="chip">180&nbsp;KB</span></figcaption>
+          </figure>
+        </div>
         <h3>Exports and edits</h3>
         <p>A full-resolution original next to a resized JPEG you sent to someone. They are not byte-identical; they still look the same.</p>
       </div>
       <div class="use-card">
+        <div class="use-visual use-visual-pair" aria-hidden="true">
+          <figure class="pair-thumb">
+            <img src="/photos/examples/chat-original.jpg" alt="">
+            <figcaption>Original</figcaption>
+          </figure>
+          <figure class="pair-thumb">
+            <img src="/photos/examples/chat-compressed.jpg" alt="">
+            <figcaption>Chat copy</figcaption>
+          </figure>
+        </div>
         <h3>Chat and AirDrop copies</h3>
         <p>WhatsApp, Messenger, and AirDrop often recompress. Photo mode still groups them with the original when they look alike.</p>
       </div>
       <div class="use-card">
+        <div class="use-visual use-visual-pair" aria-hidden="true">
+          <figure class="pair-thumb">
+            <img src="/photos/examples/shot-original.jpg" alt="">
+            <figcaption>Photo</figcaption>
+          </figure>
+          <figure class="pair-thumb">
+            <img src="/photos/examples/shot-screenshot.jpg" alt="">
+            <figcaption>Screenshot</figcaption>
+          </figure>
+        </div>
         <h3>Screenshots of photos</h3>
         <p>A screenshot of an image on screen will not match SHA-256. Perceptual hashes often still group it.</p>
       </div>
