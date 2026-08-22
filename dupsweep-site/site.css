@@ -71,6 +71,50 @@
   .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
   .feature-card p { font-size: 14px; color: var(--text-dim); }
 
+  /* Comparison: Files vs Photos */
+  .comparison { padding: 48px 0; background: var(--bg); }
+  .comparison-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+  }
+  .comparison-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 28px; text-align: center;
+  }
+  .comparison-icon {
+    font-size: 40px; margin-bottom: 14px;
+  }
+  .comparison-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
+  .comparison-card p { font-size: 14px; color: var(--text-dim); margin: 0 0 8px; line-height: 1.5; }
+  .comparison-card p:first-of-type { font-weight: 700; color: var(--teal); margin-bottom: 12px; }
+  .comparison-desc { font-size: 14px; }
+
+  /* For Photographers section */
+  .photographers { padding: 56px 0; background: rgba(31,122,112,0.05); }
+  .photographer-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 28px;
+  }
+  .photographer-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 14px;
+    padding: 24px; text-align: center;
+  }
+  .photographer-icon {
+    font-size: 36px; margin-bottom: 12px; display: block;
+  }
+  .photographer-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
+  .photographer-card p { font-size: 14px; color: var(--text-dim); margin: 0; line-height: 1.6; }
+  .photographer-cta { text-align: center; }
+  .photographer-cta a { font-size: 15px; }
+
+  /* Photo highlight / testimonial */
+  .photo-highlight {
+    background: rgba(31,122,112,0.08); border: 1px solid rgba(31,122,112,0.2); border-radius: 12px;
+    padding: 24px; margin: 28px 0; text-align: center;
+  }
+  .highlight-stat {
+    font-size: 16px; font-weight: 600; color: var(--text-main); margin: 0; line-height: 1.6;
+  }
+  .highlight-stat strong { color: var(--teal); font-weight: 700; }
+
   /* Platforms */
   .platforms { text-align: center; padding: 8px 0 56px; }
   .platform-badges { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
@@ -167,6 +211,8 @@
   @media (max-width: 640px) {
     .hero h1 { font-size: 32px; }
     .feature-grid { grid-template-columns: 1fr; }
+    .comparison-grid { grid-template-columns: 1fr; }
+    .photographer-grid { grid-template-columns: 1fr; }
     .nav-links { display: none; }
   }
 
