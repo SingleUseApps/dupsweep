@@ -306,7 +306,8 @@
     display: flex; align-items: center; justify-content: center; z-index: 1001;
   }
   .lightbox-overlay .close:hover { border-color: var(--teal); color: var(--teal); }
-  .page-cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 28px 0 8px; }
+  .page-cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 28px 0 8px; justify-content: center; }
+  .page-cta a { flex: 1 1 auto; min-width: 120px; max-width: 200px; text-align: center; }
   @media (max-width: 640px) {
     .page-hero h1 { font-size: 28px; }
     .use-grid { grid-template-columns: 1fr; }
