@@ -309,9 +309,9 @@
         <a class="platform-badge" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-macos.dmg">⌘ macOS (Universal)</a>
         <a class="platform-badge" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-windows-setup.exe">⊞ Windows</a>
       </div>
-      <div class="topic-links">
-        <a href="/get-started/">Duplicate cleaner for Mac & Windows</a>
-        <a href="/photos/">Similar photos</a>
+      <div class="download-section">
+        <a class="btn-primary" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-macos.dmg">⌘ Download for macOS</a>
+        <a class="btn-primary" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-windows-setup.exe">⊞ Download for Windows</a>
       </div>
     </div>
   </section>
@@ -440,6 +440,14 @@
             <details>
               <summary>Where do I get support or suggest a feature?</summary>
               <p>Email <a href="mailto:support@dupsweep.com">support@dupsweep.com</a> or use the Contact / Feature Request button at the bottom of this page. Choose Support or Feature Request so the message is tagged correctly.</p>
+            </details>
+            <details>
+              <summary>What should I know before installing on macOS?</summary>
+              <p>DupSweep includes a universal installer for Apple Silicon and Intel. On first launch, macOS may show a Gatekeeper warning because the installer is not notarized yet — open it from Finder if your system blocks the double-click. If you use iCloud Drive, note that cloud-only files are just placeholders on disk; make them available offline first, or exclude those folders from your scan.</p>
+            </details>
+            <details>
+              <summary>What should I know before installing on Windows?</summary>
+              <p>Windows SmartScreen may warn on first launch because the installer is not signed yet — choose "More info" → Run anyway if you downloaded DupSweep from this site or GitHub Releases. For OneDrive users: add the OneDrive folder to your scan, but first make online-only files available offline. Avoid scanning <code>C:\Windows</code> and Program Files — DupSweep scans only the folders you choose, it does not specially lock the OS away.</p>
             </details>
           </div>
         </details>

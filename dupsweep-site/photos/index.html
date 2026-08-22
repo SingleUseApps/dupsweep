@@ -44,17 +44,14 @@
       <h1>Find <span class="accent">similar photos</span>, not just identical files</h1>
       <p>Byte-identical copies are easy. The pile is usually near-duplicates: bursts, a resized export, a WhatsApp compress. DupSweep’s photo mode uses perceptual hashing (dHash + pHash) to group those.</p>
       <div class="page-cta">
-        <a class="btn-primary" href="/#download">Download DupSweep</a>
-        <a class="btn-secondary" href="/#license">Get a lifetime license — 5€</a>
+        <a class="btn-primary" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-macos.dmg">⌘ Download for macOS</a>
+        <a class="btn-primary" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-windows-setup.exe">⊞ Download for Windows</a>
+        <a class="btn-secondary" href="#license">Get a license</a>
       </div>
     </header>
   </div>
 
   <div class="container prose">
-    <div class="photo-highlight">
-      <p class="highlight-stat">Photographers report freeing <strong>100 GB+</strong> by finding bursts, edits, exports, and chat copies they didn't know they had.</p>
-    </div>
-
     <h2>Exact file vs similar photo</h2>
     <p><strong>File mode</strong> uses SHA-256. Two files are duplicates only if every byte matches. A JPEG you re-saved, or a screenshot of the same picture, will not match.</p>
     <p><strong>Photo mode</strong> looks at how the image appears. dHash and pHash turn the picture into a small fingerprint. Photos that look the same — cropped a little, resized, re-exported — land in the same group even when the files differ.</p>
@@ -142,10 +139,21 @@
     </div>
   </div>
 
+  <section class="license-section" id="license">
+    <div class="container">
+      <h2 class="section-title">Unlock unlimited cleanup</h2>
+      <p class="section-sub">Pay <span class="price-tag">5€</span> once for a lifetime Pro license.</p>
+      <div class="buy-shell">
+        <div id="buyWidget" class="buy-widget" data-app="dupsweep" data-accent="#1F7A70"></div>
+        <p class="pay-methods-note">Pay with <strong>card</strong>, <strong>MB WAY</strong>, <strong>Klarna</strong>, <strong>Amazon Pay</strong>, Bancontact, Satispay, and more. You don't need a Stripe account.</p>
+      </div>
+    </div>
+  </section>
+
   <div class="container">
-    <div class="topic-links">
-      <a href="/get-started/">Get Started</a>
-      <a class="current" href="/photos/">Similar photos</a>
+    <div class="download-section">
+      <a class="btn-primary" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-macos.dmg">⌘ Download for macOS</a>
+      <a class="btn-primary" href="https://github.com/SingleUseApps/dupsweep/releases/latest/download/DupSweep-windows-setup.exe">⊞ Download for Windows</a>
     </div>
   </div>
 
