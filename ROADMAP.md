@@ -140,7 +140,9 @@ Nice-to-haves from VibeCoding Ideas. Not required to match FileLister. Only afte
 |---|---|---|---|
 | Landing page + Buy Widget + 5€ Stripe **test** checkout | — | ✅ | |
 | FAQ (6 visible + more) | — | ✅ | |
-| `/mac` `/windows` `/photos` | — | ✅ | Screenshot placeholders |
+| `/get-started` `/photos` | — | ✅ | Merged `/mac` + `/windows` into one unified page; old URLs redirect. Screenshot placeholders |
+| Nav "Download" scrolls to license/payment section | — | ✅ | All 3 pages |
+| License email includes support address | — | ✅ | Per-app (license-service) |
 | SEO basics (www, canonical, sitemap, schema, README) | — | ✅ | |
 | Contact / Feature Request form | — | ✅ | |
 | OneDrive **folder** called out on the site | — | ✅ | Honest: on-disk only |
