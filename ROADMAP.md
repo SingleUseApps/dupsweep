@@ -147,6 +147,7 @@ Nice-to-haves from VibeCoding Ideas. Not required to match FileLister. Only afte
 | Contact / Feature Request form | — | ✅ | |
 | OneDrive **folder** called out on the site | — | ✅ | Honest: on-disk only |
 | Photos “When this helps” visuals on `/photos/` | — | ✅ | Mockups for bursts / exports / chat / screenshots — independent of queue 5 |
+| Merge Features into `/get-started/` + screenshot carousel | — | 📋 | Move homepage `#features` grid onto `/get-started/`; replace small-thumbnail lightbox with an arrow-nav carousel (app-window frame, like Duplicate Cleaner's screenshots page) |
 | Real UI screenshots on the site + `og:image` | 5 | 📋 | Waiting on captures |
 | Stripe **live** keys / real 5€ purchases | 6 | 📋 | Next when ready to sell |
 | Sign / notarize installers | 7 | 📋 | Gatekeeper / SmartScreen warn today |
