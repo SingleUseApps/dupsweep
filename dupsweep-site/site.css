@@ -226,9 +226,9 @@
     padding: 14px 16px;
   }
   .highlight-check {
-    flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
-    background: var(--teal); color: #fff; font-size: 13px; font-weight: 800;
-    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+    flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(31,122,112,0.1); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
   }
   .highlight-list strong { color: var(--text-main); }
   .use-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0 8px; }
