@@ -6,8 +6,8 @@ function confidenceClass(overall) {
   return "match-low";
 }
 
-function FileGroupCard({ group, deletedPaths, selected, onSelect, onDelete, onOpenFolder }) {
-  const remaining = group.files.filter((f) => !deletedPaths.has(f.full_path)).length;
+function FileGroupCard({ group, deletedPaths, ignoredPaths, selected, onSelect, onToggleIgnore, onDelete, onOpenFolder }) {
+  const remaining = group.files.filter((f) => !deletedPaths.has(f.full_path) && !ignoredPaths.has(f.full_path)).length;
   return (
     <div className={`fgroup ${remaining > 1 ? "removable" : "safe"}`}>
       <div className="fgroup-head">
@@ -34,10 +34,21 @@ function FileGroupCard({ group, deletedPaths, selected, onSelect, onDelete, onOp
       </div>
       {group.files.map((file) => {
         const isDeleted = deletedPaths.has(file.full_path);
+        const isIgnored = ignoredPaths.has(file.full_path);
         return (
-          <div className="frow" key={file.id}>
+          <div className={`frow ${isIgnored && !isDeleted ? "ignored" : ""}`} key={file.id}>
+            {!isDeleted && (
+              <label className="ignore-toggle" title="Exclude from Clean All without deleting">
+                <input
+                  type="checkbox"
+                  checked={isIgnored}
+                  onChange={() => onToggleIgnore(file.full_path)}
+                />
+                <span>Ignore</span>
+              </label>
+            )}
             <span
-              className={`path ${isDeleted ? "deleted" : selected === file.id ? "selected" : ""}`}
+              className={`path ${isDeleted ? "deleted" : isIgnored ? "ignored" : selected === file.id ? "selected" : ""}`}
               onClick={() => !isDeleted && onSelect(file)}
               title={file.full_path}
             >
@@ -78,7 +89,7 @@ function tooltipFor(c) {
   return lines.join("\n");
 }
 
-export function FileGroups({ groups, deletedPaths, selected, onSelect, onDelete, onOpenFolder }) {
+export function FileGroups({ groups, deletedPaths, ignoredPaths, selected, onSelect, onToggleIgnore, onDelete, onOpenFolder }) {
   return (
     <div className="group-list">
       {groups.map((g) => (
@@ -86,8 +97,10 @@ export function FileGroups({ groups, deletedPaths, selected, onSelect, onDelete,
           key={g.id}
           group={g}
           deletedPaths={deletedPaths}
+          ignoredPaths={ignoredPaths}
           selected={selected}
           onSelect={onSelect}
+          onToggleIgnore={onToggleIgnore}
           onDelete={onDelete}
           onOpenFolder={onOpenFolder}
         />

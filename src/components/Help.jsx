@@ -52,7 +52,8 @@ export function HelpWindow({ onClose }) {
               <Feature icon="shield" color="indigo" title="Deep Scan" body="Verifies candidate duplicates with SHA-256 hashing." />
               <Feature icon="photo" color="orange" title="Media / No Hidden / Symlinks" body="Restrict to media files, skip dotfiles, or detect symlinks pointing at the same target." />
               <Feature icon="check" color="green" title="Confidence scoring" body="Each group gets a % score from five signals (folder similarity, naming, timestamps, path proximity, copy count)." />
-              <Feature icon="trash" color="red" title="Clean All Duplicates" body="Batch-removes every redundant copy after a byte-for-byte safety re-check. Requires a license." />
+              <Feature icon="check" color="gray" title="Ignore flag" body="Mark a copy to skip it in Clean All without deleting it. Ignored rows are greyed out; uncheck to include them again." />
+              <Feature icon="trash" color="red" title="Clean All Duplicates" body="Batch-removes every redundant copy after a byte-for-byte safety re-check. Ignored copies are left alone. Requires a license." />
             </>
           )}
           {section === "folders" && (

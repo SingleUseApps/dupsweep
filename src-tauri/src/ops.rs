@@ -121,15 +121,22 @@ pub fn verify_and_trash(target: &str, reference: &str, is_symlink: bool) -> Resu
     trash::delete(target).map_err(|e| e.to_string())
 }
 
-// Batch clean: for each group keep files[0], verify+trash the rest. Returns (trashed_paths, skipped, bytes).
-pub fn clean_all(groups: &[DuplicateGroup], deleted: &[String]) -> (Vec<String>, usize, u64) {
+// Batch clean: for each group keep the first active copy, verify+trash the rest.
+// Deleted and ignored paths are excluded from the active set (Ignore flag).
+// Returns (trashed_paths, skipped, bytes).
+pub fn clean_all(groups: &[DuplicateGroup], deleted: &[String], ignored: &[String]) -> (Vec<String>, usize, u64) {
     let deleted_set: std::collections::HashSet<&String> = deleted.iter().collect();
+    let ignored_set: std::collections::HashSet<&String> = ignored.iter().collect();
     let mut to_trash = Vec::new();
     let mut skipped = 0;
     let mut bytes = 0u64;
 
     for group in groups {
-        let active: Vec<&FileInfo> = group.files.iter().filter(|f| !deleted_set.contains(&f.full_path)).collect();
+        let active: Vec<&FileInfo> = group
+            .files
+            .iter()
+            .filter(|f| !deleted_set.contains(&f.full_path) && !ignored_set.contains(&f.full_path))
+            .collect();
         if active.len() <= 1 {
             continue;
         }
@@ -266,6 +273,33 @@ fn copy_dir_recursive(src: &Path, dst: &Path) -> std::io::Result<()> {
 mod tests {
     use super::*;
 
+    fn file(id: &str, path: &str) -> FileInfo {
+        FileInfo {
+            id: id.into(),
+            path: Path::new(path).parent().unwrap().to_string_lossy().into(),
+            name: Path::new(path).file_name().unwrap().to_string_lossy().into(),
+            size: "1 B".into(),
+            size_bytes: 1,
+            is_symlink: false,
+            modification_date: None,
+            sha256: None,
+            full_path: path.into(),
+        }
+    }
+
+    fn group(files: Vec<FileInfo>) -> DuplicateGroup {
+        DuplicateGroup {
+            id: "g1".into(),
+            name: files[0].name.clone(),
+            size: "1 B".into(),
+            size_bytes: 1,
+            files,
+            is_symlink_group: true, // skip byte identity check in unit tests
+            confidence: None,
+            root_folder: None,
+        }
+    }
+
     #[test]
     fn undo_removes_created_files() {
         let dir = std::env::temp_dir().join(format!("fl-undo-{}", std::process::id()));
@@ -281,5 +315,32 @@ mod tests {
         assert!(restored.is_empty());
         assert!(!f1.exists() && !f2.exists(), "created files should be gone after undo");
         fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn clean_all_skips_ignored_paths() {
+        let g = group(vec![
+            file("1", "/tmp/a/report.pdf"),
+            file("2", "/tmp/b/report.pdf"),
+            file("3", "/tmp/c/report.pdf"),
+        ]);
+        let ignored = vec!["/tmp/b/report.pdf".into()];
+        let (trashed, skipped, bytes) = clean_all(&[g], &[], &ignored);
+        assert_eq!(skipped, 0);
+        assert_eq!(trashed, vec!["/tmp/c/report.pdf".to_string()]);
+        assert_eq!(bytes, 1);
+    }
+
+    #[test]
+    fn clean_all_does_nothing_when_only_ignored_extras_remain() {
+        let g = group(vec![
+            file("1", "/tmp/a/report.pdf"),
+            file("2", "/tmp/b/report.pdf"),
+        ]);
+        let ignored = vec!["/tmp/b/report.pdf".into()];
+        let (trashed, skipped, bytes) = clean_all(&[g], &[], &ignored);
+        assert!(trashed.is_empty());
+        assert_eq!(skipped, 0);
+        assert_eq!(bytes, 0);
     }
 }

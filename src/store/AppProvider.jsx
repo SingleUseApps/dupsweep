@@ -26,6 +26,7 @@ export function AppProvider({ children }) {
   const [searchedModes, setSearchedModes] = useState(new Set());
 
   const [deletedPaths, setDeletedPaths] = useState(new Set());
+  const [ignoredPaths, setIgnoredPaths] = useState(new Set());
   const [scanning, setScanning] = useState(false);
   const [progress, setProgress] = useState({ progress: 0, status: "Ready to start", phase: 0, total_phases: 1 });
   const [status, setStatus] = useState("");
@@ -97,8 +98,8 @@ export function AppProvider({ children }) {
         switch (sort.criteria) {
           case "size": r = a.size_bytes - b.size_bytes; break;
           case "count": {
-            const ca = a.files.filter((f) => !deletedPaths.has(f.full_path)).length;
-            const cb = b.files.filter((f) => !deletedPaths.has(f.full_path)).length;
+            const ca = a.files.filter((f) => !deletedPaths.has(f.full_path) && !ignoredPaths.has(f.full_path)).length;
+            const cb = b.files.filter((f) => !deletedPaths.has(f.full_path) && !ignoredPaths.has(f.full_path)).length;
             r = ca - cb; break;
           }
           case "matchRatio": r = (a.confidence?.overall || 0) - (b.confidence?.overall || 0); break;
@@ -108,7 +109,7 @@ export function AppProvider({ children }) {
       return sort.order === "ascending" ? r : -r;
     });
     return arr;
-  }, [sort, mode, fileOpts.detectSymlinks, deletedPaths]);
+  }, [sort, mode, fileOpts.detectSymlinks, deletedPaths, ignoredPaths]);
 
   const toggleSort = (criteria) =>
     setSort((s) => s.criteria === criteria
@@ -136,13 +137,14 @@ export function AppProvider({ children }) {
       .filter((g) => g.photos.length >= 2);
   }
 
-  const activeCount = (g) => g.files.filter((f) => !deletedPaths.has(f.full_path)).length;
+  const activeCount = (g) => g.files.filter((f) => !deletedPaths.has(f.full_path) && !ignoredPaths.has(f.full_path)).length;
   const hasRemovable = displayedFileGroups.some((g) => activeCount(g) > 1);
   const cleanComposition = () => {
     let count = 0, bytes = 0;
     for (const g of displayedFileGroups) { const a = activeCount(g); if (a > 1) { count += a - 1; bytes += g.size_bytes * (a - 1); } }
     return { count, bytes };
   };
+  const displayPotentialSavings = mode === "files" ? cleanComposition().bytes : potentialSavings;
   const hasResults = mode === "files" ? fileGroups.length > 0 : mode === "folders" ? folderGroups.length > 0 : photoGroups.length > 0;
 
   // ── keyboard: ⌘Z undo · Space preview · ↑/↓ navigate ──
@@ -191,6 +193,7 @@ export function AppProvider({ children }) {
       if (mode === "files") {
         const res = await api.scanFiles(folders, scanScope === "perFolder", fileOpts.deep, fileOpts.mediaOnly, fileOpts.skipHidden, fileOpts.detectSymlinks);
         setFileGroups(res.groups); setPotentialSavings(res.total_potential_savings);
+        setIgnoredPaths(new Set());
         setStatus(res.stopped ? "Scan stopped." : `Completed! ${res.groups.length} groups found.`);
       } else if (mode === "folders") {
         const res = await api.scanFolders(folders, scanScope === "perFolder", folderOpts.mediaOnly, folderOpts.skipHidden, folderOpts.threshold);
@@ -209,9 +212,17 @@ export function AppProvider({ children }) {
 
   // ── deletions ──
   const selectFile = (file) => { setSelectedFile(file.id); setSelectedFilePath(file.full_path); };
+  const toggleIgnore = (fullPath) => {
+    setIgnoredPaths((prev) => {
+      const next = new Set(prev);
+      if (next.has(fullPath)) next.delete(fullPath);
+      else next.add(fullPath);
+      return next;
+    });
+  };
   const deleteFile = async (group, file) => {
     if (!lic.canDelete()) { setDialog({ type: "register" }); return; }
-    const ref = group.files.find((f) => f.full_path !== file.full_path && !deletedPaths.has(f.full_path));
+    const ref = group.files.find((f) => f.full_path !== file.full_path && !deletedPaths.has(f.full_path) && !ignoredPaths.has(f.full_path));
     if (!ref) { setStatus("Security Error: No active original file found!"); return; }
     setStatus("Verifying binary identity...");
     try {
@@ -228,7 +239,7 @@ export function AppProvider({ children }) {
   const doCleanAll = async () => {
     setDialog(null); setStatus("Verifying batch integrity...");
     try {
-      const res = await api.cleanAll(displayedFileGroups, [...deletedPaths]);
+      const res = await api.cleanAll(displayedFileGroups, [...deletedPaths], [...ignoredPaths]);
       if (res.trashed.length === 0) { setStatus(res.skipped > 0 ? `Alert: ${res.skipped} files differ and were skipped.` : "No duplicates to clean."); return; }
       setDeletedPaths((d) => { const n = new Set(d); res.trashed.forEach((p) => n.add(p)); return n; });
       setRecovered((r) => r + res.bytes);
@@ -328,10 +339,10 @@ export function AppProvider({ children }) {
     mode, setMode, folders, addFolders, removeFolder, scanScope, setScanScope,
     fileOpts, setFileOpts, folderOpts, setFolderOpts, photoOpts, setPhotoOpts, photoPriority, setPhotoPriority,
     fileGroups, folderGroups, photoGroups, displayedFileGroups, displayedFolderGroups, displayedPhotoGroups,
-    deletedPaths, scanning, progress, barStatus, startScanning,
+    deletedPaths, ignoredPaths, toggleIgnore, scanning, progress, barStatus, startScanning,
     sort, toggleSort,
     selectedFile, selectFile, selectedFolderId, setSelectedFolderId, selectedPhotoId, setSelectedPhotoId,
-    potentialSavings, recovered, lastLogPath, searchedModes, hasResults, hasRemovable,
+    potentialSavings: displayPotentialSavings, recovered, lastLogPath, searchedModes, hasResults, hasRemovable,
     safeMerge, safeMergeDest, setSafeMergeDest, renameKept, setRenameKept, onToggleSafeMerge,
     deleteFile, cleanAll, doCleanAll, onMergeFolder, confirmMergeFolder, executeMerge, mergeAll, executeMergeAll,
     startWalkthrough, walk, walkAdvance, setWalk,

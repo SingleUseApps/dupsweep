@@ -149,8 +149,12 @@ struct CleanResult {
 }
 
 #[tauri::command]
-fn clean_all_duplicates(groups: Vec<DuplicateGroup>, deleted: Vec<String>) -> Result<CleanResult, String> {
-    let (to_trash, skipped, bytes) = clean_all(&groups, &deleted);
+fn clean_all_duplicates(
+    groups: Vec<DuplicateGroup>,
+    deleted: Vec<String>,
+    ignored: Vec<String>,
+) -> Result<CleanResult, String> {
+    let (to_trash, skipped, bytes) = clean_all(&groups, &deleted, &ignored);
     if to_trash.is_empty() {
         return Ok(CleanResult { trashed: vec![], skipped, bytes: 0, log_path: None });
     }

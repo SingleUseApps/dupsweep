@@ -242,6 +242,12 @@ button { font-family: inherit; cursor: default; }
 .copies.safe { color: var(--green-text); background: rgba(40,200,64,0.12); }
 
 .frow { display: flex; align-items: center; gap: 8px; padding-left: 14px; margin-top: 3px; }
+.frow.ignored { background: rgba(0, 0, 0, 0.12); border-radius: 3px; }
+.frow .ignore-toggle {
+  display: flex; align-items: center; gap: 2px; flex-shrink: 0;
+  font-size: 7px; color: var(--secondary); cursor: pointer; user-select: none;
+}
+.frow .ignore-toggle input { margin: 0; cursor: pointer; }
 .frow .path {
   flex: 1; font-size: 10px; font-family: "SF Mono", monospace; color: var(--secondary);
   padding: 2px 4px; border-radius: 3px; cursor: default;
@@ -249,6 +255,7 @@ button { font-family: inherit; cursor: default; }
 }
 .frow .path.selected { background: var(--blue); color: #fff; }
 .frow .path.deleted { color: var(--red); text-decoration: line-through; }
+.frow .path.ignored { color: var(--secondary); opacity: 0.5; }
 .icon-btn { border: none; background: transparent; color: var(--gray); font-size: 12px; padding: 2px; }
 .icon-btn.lock { color: rgba(40,200,64,0.5); }
 .icon-btn:disabled { cursor: default; }
