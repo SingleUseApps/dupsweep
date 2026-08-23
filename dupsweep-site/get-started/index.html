@@ -31,7 +31,6 @@
     <nav>
       <a class="brand" href="/"><span class="icon">🧹</span> DupSweep</a>
       <ul class="nav-links">
-        <li><a href="/#features">Features</a></li>
         <li><a href="/get-started/" class="current">Get Started</a></li>
         <li><a href="/photos/">Photos</a></li>
         <li><a href="/#faq">FAQ</a></li>
@@ -70,51 +69,6 @@
       </div>
     </div>
 
-    <h2>Screenshots</h2>
-    <div class="screenshot-gallery">
-      <div class="os-section">
-        <h3>macOS</h3>
-        <div class="shot-grid shots-compact">
-          <figure class="shot">
-            <button type="button" class="shot-thumb" aria-label="Open macOS screenshot: scan screen" data-screenshot="mac-scan">
-              <div class="shot-placeholder-compact">Screenshot<br><code>scan.png</code></div>
-            </button>
-            <figcaption>Choose folders to scan</figcaption>
-          </figure>
-          <figure class="shot">
-            <button type="button" class="shot-thumb" aria-label="Open macOS screenshot: results screen" data-screenshot="mac-results">
-              <div class="shot-placeholder-compact">Screenshot<br><code>results.png</code></div>
-            </button>
-            <figcaption>Review & clean duplicates</figcaption>
-          </figure>
-        </div>
-      </div>
-      <div class="os-section">
-        <h3>Windows</h3>
-        <div class="shot-grid shots-compact">
-          <figure class="shot">
-            <button type="button" class="shot-thumb" aria-label="Open Windows screenshot: scan screen" data-screenshot="windows-scan">
-              <div class="shot-placeholder-compact">Screenshot<br><code>scan.png</code></div>
-            </button>
-            <figcaption>Choose folders to scan</figcaption>
-          </figure>
-          <figure class="shot">
-            <button type="button" class="shot-thumb" aria-label="Open Windows screenshot: results screen" data-screenshot="windows-results">
-              <div class="shot-placeholder-compact">Screenshot<br><code>results.png</code></div>
-            </button>
-            <figcaption>Review & clean duplicates</figcaption>
-          </figure>
-        </div>
-      </div>
-    </div>
-
-    <div class="lightbox-overlay" id="screenshotLightbox">
-      <div class="lightbox-card">
-        <button type="button" class="close" id="closeLightbox" aria-label="Close lightbox">×</button>
-        <img id="lightboxImage" src="" alt="" class="lightbox-image">
-      </div>
-    </div>
-
     <h2>What you can clean</h2>
     <div class="use-grid">
       <div class="use-card">
@@ -140,6 +94,53 @@
     </div>
 
   </div>
+
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">Smart for photos, rigorous for files</h2>
+      <p class="section-sub">Byte-for-byte verification + perceptual hashing. Nothing gets removed without proof.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🗂️</div>
+          <h3>SHA-256 Verified Files</h3>
+          <p>Duplicate matches are confirmed byte-for-byte before anything is touched — never just filename or size.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📁</div>
+          <h3>Duplicate Folder Clustering</h3>
+          <p>Finds whole duplicated folder structures, not just individual files, with safe in-place or copy-based merging.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🖼️</div>
+          <h3>Visual Photo Similarity</h3>
+          <p>Perceptual hashing (dHash + pHash) catches near-duplicate photos, not just exact copies.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">↩️</div>
+          <h3>Undo, Always</h3>
+          <p>Every deletion goes to the system Trash first, with full operation history and one-key undo.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">☁️</div>
+          <h3>OneDrive folder</h3>
+          <p>Point DupSweep at your OneDrive folder and find duplicates the same way as on any other disk. Make online-only files available locally first, then scan.</p>
+        </div>
+      </div>
+
+      <div class="carousel">
+        <button type="button" class="carousel-arrow" id="carouselPrev" aria-label="Previous screenshot">‹</button>
+        <div class="carousel-frame">
+          <div class="carousel-titlebar">
+            <span class="carousel-dot"></span><span class="carousel-dot"></span><span class="carousel-dot"></span>
+            <span class="carousel-title" id="carouselTitle"></span>
+          </div>
+          <img class="carousel-image" id="carouselImage" src="" alt="">
+        </div>
+        <button type="button" class="carousel-arrow" id="carouselNext" aria-label="Next screenshot">›</button>
+      </div>
+      <p class="carousel-caption" id="carouselCaption"></p>
+    </div>
+  </section>
 
   <section class="license-section" id="license">
     <div class="container">
@@ -194,38 +195,36 @@
   <script src="https://singleuseapps.com/buy-widget.js?v=4"></script>
   <script src="/contact.js"></script>
   <script>
-    // Lightbox for screenshots
-    const lightboxOverlay = document.getElementById('screenshotLightbox');
-    const lightboxImage = document.getElementById('lightboxImage');
-    const closeLightboxBtn = document.getElementById('closeLightbox');
+    // Screenshot carousel
+    const shots = [
+      { title: 'DupSweep — macOS', caption: 'Choose folders to scan', placeholder: 'macOS – scan screen placeholder' },
+      { title: 'DupSweep — macOS', caption: 'Review & clean duplicates', placeholder: 'macOS – results screen placeholder' },
+      { title: 'DupSweep — Windows', caption: 'Choose folders to scan', placeholder: 'Windows – scan screen placeholder' },
+      { title: 'DupSweep — Windows', caption: 'Review & clean duplicates', placeholder: 'Windows – results screen placeholder' }
+    ];
+    let shotIndex = 0;
+    const carouselImage = document.getElementById('carouselImage');
+    const carouselTitle = document.getElementById('carouselTitle');
+    const carouselCaption = document.getElementById('carouselCaption');
 
-    // Map data-screenshot to placeholder text (real images will be added later)
-    const placeholderMap = {
-      'mac-scan': 'macOS – scan screen placeholder',
-      'mac-results': 'macOS – results screen placeholder',
-      'windows-scan': 'Windows – scan screen placeholder',
-      'windows-results': 'Windows – results screen placeholder'
-    };
+    function renderShot() {
+      const shot = shots[shotIndex];
+      carouselTitle.textContent = shot.title;
+      carouselCaption.textContent = shot.caption;
+      carouselImage.alt = shot.placeholder;
+      carouselImage.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500'%3E%3Crect fill='%23efece6' width='800' height='500'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='18' fill='%23999' text-anchor='middle' dominant-baseline='middle'%3E${shot.placeholder}%3C/text%3E%3C/svg%3E`;
+    }
 
-    document.querySelectorAll('.shot-thumb').forEach(button => {
-      button.addEventListener('click', (e) => {
-        const screenshotKey = e.currentTarget.dataset.screenshot;
-        // For now, show placeholder; real image URLs would be constructed here
-        lightboxImage.alt = placeholderMap[screenshotKey] || 'Screenshot';
-        lightboxImage.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500'%3E%3Crect fill='%23efece6' width='800' height='500'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='18' fill='%23999' text-anchor='middle' dominant-baseline='middle'%3E${placeholderMap[screenshotKey] || 'Screenshot placeholder'}%3C/text%3E%3C/svg%3E`;
-        lightboxOverlay.classList.add('open');
-      });
+    document.getElementById('carouselPrev').addEventListener('click', () => {
+      shotIndex = (shotIndex - 1 + shots.length) % shots.length;
+      renderShot();
+    });
+    document.getElementById('carouselNext').addEventListener('click', () => {
+      shotIndex = (shotIndex + 1) % shots.length;
+      renderShot();
     });
 
-    closeLightboxBtn.addEventListener('click', () => {
-      lightboxOverlay.classList.remove('open');
-    });
-
-    lightboxOverlay.addEventListener('click', (e) => {
-      if (e.target === lightboxOverlay) {
-        lightboxOverlay.classList.remove('open');
-      }
-    });
+    renderShot();
   </script>
 </body>
 </html>
