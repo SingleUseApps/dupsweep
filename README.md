@@ -53,6 +53,17 @@ npm run tauri build                                # build a local installer
 
 Push a version tag (`git tag v1.0.0 && git push --tags`) — the workflow runs the tests, builds the universal-macOS + Windows installers, and publishes a GitHub Release with stable download links (`DupSweep-macos.dmg`, `DupSweep-windows-setup.exe`). Installers are unsigned for now (Gatekeeper/SmartScreen will warn on first launch).
 
+## Deploy the website
+
+The `hetzner` server has a deploy script at `~/bin/deploy-site.sh` (deploy user's home — not tracked in this repo). It only pulls from GitHub, so push first:
+
+```bash
+git push origin main
+ssh hetzner "~/bin/deploy-site.sh https://github.com/SingleUseApps/dupsweep.git dupsweep-site /var/www/dupsweep-com"
+```
+
+It keeps a shallow clone cached under `~/.deploy-cache/dupsweep` on the server, does `fetch` + `reset --hard` to `main`, then `rsync --delete`s the `dupsweep-site` subfolder into `/var/www/dupsweep-com`. The script generalizes to `deploy-site.sh <repo-url> <subfolder-or-.> <dest-dir>` for other repos too.
+
 ---
 
 [www.dupsweep.com](https://www.dupsweep.com/) · [Single Use Apps](https://singleuseapps.com/)
