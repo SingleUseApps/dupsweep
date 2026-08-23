@@ -253,12 +253,6 @@
     background: var(--bg); border: 1px solid var(--border);
     border-radius: 999px; padding: 1px 7px; white-space: nowrap;
   }
-  .os-compare { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0 8px; }
-  .os-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
-  .os-card h4 { font-size: 15px; font-weight: 700; margin: 0 0 12px; }
-  .os-card ul { margin: 0; padding-left: 20px; }
-  .os-card li { font-size: 14px; color: var(--text-dim); margin: 6px 0; line-height: 1.5; }
-  .os-card strong { color: var(--text-main); font-weight: 600; }
   .download-section { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; padding: 24px 0 48px; }
 
   /* Screenshot carousel */
@@ -288,7 +282,6 @@
     .use-grid { grid-template-columns: 1fr; }
     .use-visual-pair { gap: 8px; }
     .use-row { padding: 16px; }
-    .os-compare { grid-template-columns: 1fr; }
     .carousel { gap: 8px; }
     .carousel-arrow { width: 34px; height: 34px; font-size: 16px; }
   }
