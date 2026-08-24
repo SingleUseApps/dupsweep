@@ -1,0 +1,40 @@
+name: Deploy Website to VPS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'dupsweep-site/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Add VPS to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Prepare Directory
+        run: |
+          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no deploy@${{ secrets.VPS_HOST }} 'echo "${{ secrets.VPS_PASSWORD }}" | sudo -S mkdir -p /var/www/dupsweep-com/ && echo "${{ secrets.VPS_PASSWORD }}" | sudo -S chown -R deploy:www-data /var/www/dupsweep-com/'
+
+      - name: Deploy via Rsync
+        run: |
+          sshpass -p "${{ secrets.VPS_PASSWORD }}" rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./dupsweep-site/ deploy@${{ secrets.VPS_HOST }}:/var/www/dupsweep-com/
+
+      - name: Restart Nginx
+        run: |
+          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no deploy@${{ secrets.VPS_HOST }} 'echo "${{ secrets.VPS_PASSWORD }}" | sudo -S systemctl restart nginx'
