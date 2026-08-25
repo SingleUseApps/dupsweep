@@ -1,6 +1,6 @@
 [package]
 name = "dupsweep"
-version = "1.0.0"
+version = "1.1.0"
 description = "DupSweep — find and safely remove duplicate files, folders and photos"
 authors = ["Luís Silva"]
 edition = "2021"
