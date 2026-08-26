@@ -29,7 +29,7 @@ timeline
 
 - [x] **1. Ignore flag** — per file, skip that copy in Clean All without deleting it (FileLister v1.1).
 - [ ] **2. Keep rules** — Files mode: keep oldest / newest / largest / manual (Photos already have keeper priority).
-- [ ] **3. Photos size filter** — min/max size, same as Files (FileLister v1.19).
+- [x] **3. Photos size filter** — min/max size, same as Files (FileLister v1.19).
 - [ ] **4. Auto-scan** — start a search when the user adds a folder (FileLister v1.1).
 - [ ] **5. Screenshots** — you provide captures; put them on `/`, `/mac`, `/windows`, `/photos`, Help, and `og-image`.
 - [ ] **6. Stripe live** — live keys and webhooks, then one real 5€ purchase. Still test mode today.
@@ -82,7 +82,7 @@ Port these from FileLister before cloud work.
 |---|---|---|---|---|
 | Ignore flag per file | 1 | ✅ | ✅ v1.1 | Exclude a copy from Clean All without deleting it |
 | Auto-select keep rules (oldest / newest / largest / manual) | 2 | 📋 | ✅ | Files mode only; Photos already have keeper priority |
-| Photos min/max size filter | 3 | 📋 | ✅ v1.19 | Size filter is Files-only today |
+| Photos min/max size filter | 3 | ✅ | ✅ v1.19 | Filters individual photos within a group, not whole groups |
 | Auto-scan when a folder is added | 4 | 📋 | ✅ v1.1 | DupSweep waits for “Search for Duplicates” |
 | Merge composition pie chart | after 10 | 📋 | ✅ v1.15 | Merge sheets have counts, no pie |
 | Help with annotated screenshots | 5 | 📋 | ✅ v1.3 | Needs real UI captures |
