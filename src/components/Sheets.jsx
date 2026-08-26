@@ -192,18 +192,27 @@ export function AboutSheet({ onClose, registered, registeredEmail }) {
 
   return (
     <div className="overlay" onClick={onClose}>
-      <div className="sheet" onClick={(e) => e.stopPropagation()}>
-        <img src="/icon.png" alt="" width={64} height={64} style={{ display: "block", marginBottom: 10 }} />
-        <h2>About DupSweep</h2>
-        <p>DupSweep{version ? ` v${version}` : ""}</p>
-        <p>
-          {registered
-            ? <>Registered for perpetuity to <b>{registeredEmail}</b>.</>
-            : "Trial Version — not yet registered."}
-        </p>
-        <div className="sheet-row">
-          <button className="btn-primary" onClick={onClose}>Close</button>
+      <div className="sheet" onClick={(e) => e.stopPropagation()} style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h2 style={{ fontSize: 22 }}>About DupSweep</h2>
+          <p>DupSweep version{version ? ` ${version}` : ""}</p>
+          <p>
+            {registered
+              ? <>Registered for perpetuity to <b>{registeredEmail}</b>.</>
+              : "Trial Version — not yet registered."}
+          </p>
+          <div className="sheet-row" style={{ justifyContent: "center" }}>
+            <button className="btn-primary" onClick={onClose}>Close</button>
+          </div>
         </div>
+        <svg viewBox="0 0 100 100" width={64} height={64} style={{ flexShrink: 0 }}>
+          <g transform="rotate(35 50 50)">
+            <rect x="46" y="8" width="8" height="50" rx="3" fill="#8a5a3c" />
+            <path d="M30 52 Q50 40 70 52 L78 88 Q50 100 22 88 Z" fill="#ffc85c" />
+            <path d="M30 52 Q50 40 70 52" stroke="#e8a93f" strokeWidth="3" fill="none" />
+            <path d="M35 60 L28 90 M45 62 L40 92 M55 62 L60 92 M65 60 L72 90" stroke="#e8a93f" strokeWidth="2" fill="none" strokeLinecap="round" />
+          </g>
+        </svg>
       </div>
     </div>
   );
