@@ -153,7 +153,7 @@ Nice-to-haves from VibeCoding Ideas. Not required to match FileLister. Only afte
 | Stripe **live** keys / real 5€ purchases | 6 | 📋 | Next when ready to sell |
 | Sign / notarize installers | 7 | 📋 | Gatekeeper / SmartScreen warn today |
 | PayPal | — | ⏸ | After live Stripe; off the numbered queue on purpose |
-| Automate Hub / license-service deploys | — | ⏸ | Manual rsync on purpose; off the numbered queue |
+| Automate site + license-service deploys | — | ✅ | GitHub Actions (Tailscale + rsync) on push, for dupsweep-site, VibeCoding Ideas, and license-service |
 
 ---
 
