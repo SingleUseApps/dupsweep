@@ -127,8 +127,17 @@ export function AppProvider({ children }) {
   const displayedFolderGroups = sortGroups(folderGroups, true);
 
   let displayedPhotoGroups = photoGroups;
+  if (flt.sizeActive) {
+    displayedPhotoGroups = displayedPhotoGroups
+      .map((g) => {
+        const photos = g.photos.filter((p) => flt.sizeContains(p.size_bytes));
+        const keeper_id = photos.some((p) => p.id === g.keeper_id) ? g.keeper_id : photos[0] && photos[0].id;
+        return { ...g, photos, keeper_id };
+      })
+      .filter((g) => g.photos.length >= 2);
+  }
   if (flt.filter.isActive) {
-    displayedPhotoGroups = photoGroups
+    displayedPhotoGroups = displayedPhotoGroups
       .map((g) => {
         const photos = g.photos.filter((p) => flt.filter.allows(p.full_path));
         const keeper_id = photos.some((p) => p.id === g.keeper_id) ? g.keeper_id : photos[0] && photos[0].id;

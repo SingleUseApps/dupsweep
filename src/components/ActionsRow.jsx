@@ -5,7 +5,7 @@ import { SizeFilterBar } from "./controls";
 
 export function ActionsRow() {
   const {
-    mode, fileGroups, folderGroups, displayedPhotoGroups, hasRemovable,
+    mode, fileGroups, folderGroups, photoGroups, displayedPhotoGroups, hasRemovable,
     sizeFilter, setSizeFilter, safeMerge, safeMergeDest, setSafeMergeDest, renameKept, setRenameKept, onToggleSafeMerge,
     lastLogPath, startWalkthrough, mergeAll, exportKeepers, deleteAllPhotos, cleanAll,
   } = useApp();
@@ -49,6 +49,7 @@ export function ActionsRow() {
           </button>
         </>
       )}
+      {mode === "photos" && photoGroups.length > 0 && <SizeFilterBar value={sizeFilter} onChange={setSizeFilter} />}
       {mode === "photos" && displayedPhotoGroups.length > 0 && (
         <>
           <button className="action-btn green" onClick={exportKeepers}><Icon name="upload" size={11} /> Copy keepers to…</button>
