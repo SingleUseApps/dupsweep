@@ -32,6 +32,7 @@ function FileGroupCard({ group, deletedPaths, ignoredPaths, selected, onSelect, 
         )}
         <span className={`copies ${remaining > 1 ? "dup" : "safe"}`}>{remaining} copies</span>
       </div>
+      <div className="ignore-col-header" title="Exclude from Clean All without deleting">Ignore</div>
       {group.files.map((file) => {
         const isDeleted = deletedPaths.has(file.full_path);
         const isIgnored = ignoredPaths.has(file.full_path);
@@ -44,7 +45,6 @@ function FileGroupCard({ group, deletedPaths, ignoredPaths, selected, onSelect, 
                   checked={isIgnored}
                   onChange={() => onToggleIgnore(file.full_path)}
                 />
-                <span>Ignore</span>
               </label>
             )}
             <span

@@ -241,6 +241,10 @@ button { font-family: inherit; cursor: default; }
 .copies.dup { color: var(--blue); background: rgba(0,122,255,0.1); }
 .copies.safe { color: var(--green-text); background: rgba(40,200,64,0.12); }
 
+.ignore-col-header {
+  padding-left: 14px; margin-top: 4px; font-size: 7px; font-weight: 700; color: var(--secondary);
+  text-transform: uppercase; letter-spacing: 0.3px; cursor: default;
+}
 .frow { display: flex; align-items: center; gap: 8px; padding-left: 14px; margin-top: 3px; }
 .frow.ignored { background: rgba(0, 0, 0, 0.12); border-radius: 3px; }
 .frow .ignore-toggle {
