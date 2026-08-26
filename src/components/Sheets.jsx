@@ -193,6 +193,7 @@ export function AboutSheet({ onClose, registered, registeredEmail }) {
   return (
     <div className="overlay" onClick={onClose}>
       <div className="sheet" onClick={(e) => e.stopPropagation()}>
+        <img src="/icon.png" alt="" width={64} height={64} style={{ display: "block", marginBottom: 10 }} />
         <h2>About DupSweep</h2>
         <p>DupSweep{version ? ` v${version}` : ""}</p>
         <p>
