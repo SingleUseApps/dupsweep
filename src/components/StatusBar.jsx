@@ -26,7 +26,7 @@ export function StatusBar() {
           <button onClick={() => setDialog({ type: "license" })}>(Register App)</button>
         </div>
       ) : (
-        <span style={{ fontSize: 9 }}>Licensed to {license.name}</span>
+        <span style={{ fontSize: 9 }}>Licensed</span>
       )}
     </div>
   );
