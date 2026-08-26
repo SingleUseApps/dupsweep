@@ -43,14 +43,14 @@ export function SettingsWindow({ priority, onChange, onClose }) {
               <span style={{ fontWeight: 700, color: "var(--secondary)", width: 16, fontSize: 11 }}>{i + 1}</span>
               <span style={{ color: "var(--indigo)" }}><Icon name={CRITERIA[c].icon} size={14} /></span>
               <span style={{ flex: 1, fontSize: 13 }}>{CRITERIA[c].label}</span>
-              <button className="icon-btn" disabled={i === 0} onClick={() => move(i, -1)}><Icon name="chevUp" size={13} /></button>
-              <button className="icon-btn" disabled={i === priority.length - 1} onClick={() => move(i, 1)}><Icon name="chevDown" size={13} /></button>
+              <button className="icon-btn" disabled={i === 0} onClick={() => move(i, -1)} title="Move up (higher priority)"><Icon name="chevUp" size={13} /></button>
+              <button className="icon-btn" disabled={i === priority.length - 1} onClick={() => move(i, 1)} title="Move down (lower priority)"><Icon name="chevDown" size={13} /></button>
             </div>
           ))}
         </div>
         <p style={{ marginTop: 10 }}>Applies on the next Photos search. Re-run a search to re-pick keepers with the new order.</p>
         <div className="sheet-row">
-          <button className="btn-secondary" onClick={() => onChange(DEFAULT_PRIORITY)}>Reset</button>
+          <button className="btn-secondary" onClick={() => onChange(DEFAULT_PRIORITY)} title="Restore the default priority order">Reset</button>
           <button className="btn-primary" onClick={onClose}>Done</button>
         </div>
       </div>

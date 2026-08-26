@@ -21,12 +21,12 @@ export function StatusBar() {
         </div>
       )}
       {!license.registered ? (
-        <div className="trial">
+        <div className="trial" title={`Free trial: ${TRIAL_LIMIT} deletions total, then a license is required`}>
           <Icon name="shield" size={9} /> <b>Trial Mode:</b> {license.trial}/{TRIAL_LIMIT} used
-          <button onClick={() => setDialog({ type: "license" })}>(Register App)</button>
+          <button onClick={() => setDialog({ type: "license" })} title="Enter your email and license key to unlock unlimited deletions">(Register App)</button>
         </div>
       ) : (
-        <span style={{ fontSize: 9 }}>Licensed</span>
+        <span style={{ fontSize: 9 }} title={`Registered for perpetuity to ${license.email}`}>Licensed</span>
       )}
     </div>
   );

@@ -17,6 +17,7 @@ function FolderCard({ group, selected, onSelect, onMerge, safeMerge }) {
           className="icon-btn"
           style={{ color: "var(--indigo)" }}
           onClick={(e) => { e.stopPropagation(); setCollapsed(!collapsed); }}
+          title={collapsed ? "Expand cluster details" : "Collapse cluster details"}
         >
           <Icon name={collapsed ? "chevRight" : "chevDown"} size={11} />
         </button>
@@ -53,6 +54,7 @@ function FolderCard({ group, selected, onSelect, onMerge, safeMerge }) {
           <button
             className="action-btn indigo"
             onClick={(e) => { e.stopPropagation(); safeMerge ? onMerge(group, true) : onMerge(group, false); }}
+            title={safeMerge ? "Preview the merge, then copy the result into a new folder, leaving originals untouched" : "Preview the merge, then move unique files into the keep folder and trash the others"}
           >
             <Icon name={safeMerge ? "docDoc" : "merge"} size={11} />
             {safeMerge ? "Merge to New" : "Merge & Clean"}

@@ -2,9 +2,9 @@ import { Icon } from "../icons";
 
 // Small reusable control widgets shared by the option/action rows.
 
-export function Check({ label, icon, checked, disabled, onChange }) {
+export function Check({ label, icon, checked, disabled, onChange, title }) {
   return (
-    <label className={`check ${disabled ? "disabled" : ""}`}>
+    <label className={`check ${disabled ? "disabled" : ""}`} title={title}>
       <input type="checkbox" checked={checked} disabled={disabled} onChange={(e) => onChange(e.target.checked)} />
       {icon && <Icon name={icon} size={11} />}
       {label}
@@ -12,20 +12,20 @@ export function Check({ label, icon, checked, disabled, onChange }) {
   );
 }
 
-export function SortBtn({ label, criteria, sort, onClick }) {
+export function SortBtn({ label, criteria, sort, onClick, title }) {
   const active = sort.criteria === criteria;
   return (
-    <button className={`sort-btn ${active ? "active" : ""}`} onClick={() => onClick(criteria)}>
+    <button className={`sort-btn ${active ? "active" : ""}`} onClick={() => onClick(criteria)} title={title}>
       {label}
       {active && <Icon name={sort.order === "ascending" ? "chevUp" : "chevDown"} size={9} />}
     </button>
   );
 }
 
-export function SizeFilterBar({ value, onChange }) {
+export function SizeFilterBar({ value, onChange, title }) {
   const active = value.min !== "" || value.max !== "";
   return (
-    <div className="size-filter">
+    <div className="size-filter" title={title}>
       <span>Size:</span>
       <input type="text" placeholder="min" value={value.min} onChange={(e) => onChange({ ...value, min: e.target.value.replace(/\D/g, "") })} />
       <span>–</span>

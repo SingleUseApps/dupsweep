@@ -27,7 +27,7 @@ function PhotoCard({ group, deletedPaths, selectedId, onSelect, onSetKeeper, onD
         <span className="saves-pill">
           <Icon name="drive" size={9} /> Save {formatBytes(group.reclaimable_bytes)}
         </span>
-        <button className="action-btn red" onClick={() => onDeleteOthers(group)}>
+        <button className="action-btn red" onClick={() => onDeleteOthers(group)} title="Move every photo in this group except the keeper to Trash">
           <Icon name="trash" size={11} /> Delete others
         </button>
       </div>
@@ -50,7 +50,8 @@ function PhotoCard({ group, deletedPaths, selectedId, onSelect, onSetKeeper, onD
               ) : isDeleted ? (
                 <span className="keeper-badge" style={{ color: "var(--red)" }}>deleted</span>
               ) : (
-                <button className="pkeep-btn" onClick={(e) => { e.stopPropagation(); onSetKeeper(group.id, photo.id); }}>
+                <button className="pkeep-btn" onClick={(e) => { e.stopPropagation(); onSetKeeper(group.id, photo.id); }}
+                  title={`Make this photo the keeper instead (${sim}% similar to the current keeper, by perceptual hash)`}>
                   Keep this ({sim}%)
                 </button>
               )}

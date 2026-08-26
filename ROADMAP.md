@@ -87,7 +87,7 @@ Port these from FileLister before cloud work.
 | Merge composition pie chart | after 10 | 📋 | ✅ v1.15 | Merge sheets have counts, no pie |
 | Help with annotated screenshots | 5 | 📋 | ✅ v1.3 | Needs real UI captures |
 | Native Quick Look (macOS) | after 10 | 📋 | ✅ | Optional polish; in-app preview exists |
-| Similarity-to-keeper % (Photos mode) | after 10 | 📋 | ✅ | Hamming-distance-based "N% similar to keeper" shown per non-keeper photo |
+| Similarity-to-keeper % (Photos mode) | — | ✅ | ✅ | Hamming-distance-based "N% similar to keeper" shown per non-keeper photo — was already implemented, mis-tracked as planned |
 
 ### Cloud login — later (queue 8–10)
 

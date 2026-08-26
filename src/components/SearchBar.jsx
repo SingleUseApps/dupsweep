@@ -7,7 +7,8 @@ export function SearchBar() {
   return (
     <div className="searchrow">
       <button className={`search-btn ${scanning ? "stop" : folders.length === 0 ? "disabled" : ""}`}
-        onClick={startScanning} disabled={folders.length === 0 && !scanning}>
+        onClick={startScanning} disabled={folders.length === 0 && !scanning}
+        title={scanning ? "Cancel the current scan" : "Scan the selected folder(s) for duplicates"}>
         <Icon name={scanning ? "stop" : "search"} size={15} />
         {scanning ? "Stop" : "Search for Duplicates"}
       </button>
@@ -25,12 +26,14 @@ export function SearchBar() {
           </div>
         )}
         <span className="spacer" />
-        <button className="btn-bordered" onClick={addFolders} disabled={scanning}>Add Folder…</button>
+        <button className="btn-bordered" onClick={addFolders} disabled={scanning} title="Choose a folder to include in the scan">Add Folder…</button>
       </div>
       {folders.length >= 2 && (
         <div className="segmented">
-          <button className={scanScope === "combined" ? "active" : ""} onClick={() => setScanScope("combined")} disabled={scanning}>Across all</button>
-          <button className={scanScope === "perFolder" ? "active" : ""} onClick={() => setScanScope("perFolder")} disabled={scanning}>Within each</button>
+          <button className={scanScope === "combined" ? "active" : ""} onClick={() => setScanScope("combined")} disabled={scanning}
+            title="Pool all selected folders together and find duplicates across them">Across all</button>
+          <button className={scanScope === "perFolder" ? "active" : ""} onClick={() => setScanScope("perFolder")} disabled={scanning}
+            title="Scan each selected folder independently, results grouped separately">Within each</button>
         </div>
       )}
     </div>
