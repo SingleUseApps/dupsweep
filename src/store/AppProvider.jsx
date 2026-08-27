@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, useRef, useCallback } f
 import { api, onProgress, onShowAbout, pickFolders, pickDestination, baseName, joinPath } from "../api";
 import { useLicense } from "./useLicense";
 import { useFilters } from "./useFilters";
+import { reorderKeeperFirst } from "../lib/keepRule";
 
 const Ctx = createContext(null);
 export const useApp = () => useContext(Ctx);
@@ -19,6 +20,8 @@ export function AppProvider({ children }) {
   const [folderOpts, setFolderOpts] = useState({ mediaOnly: false, skipHidden: false, threshold: 0.75 });
   const [photoOpts, setPhotoOpts] = useState({ threshold: 0.9, requireExif: false, expandMetadata: false, expandTime: true, expandGps: false, expandCamera: false });
   const [photoPriority, setPhotoPriority] = useState(() => loadPriority());
+  const [keepRule, setKeepRuleState] = useState(() => localStorage.getItem("DupSweep_keepRule") || "manual");
+  const setKeepRule = (rule) => { localStorage.setItem("DupSweep_keepRule", rule); setKeepRuleState(rule); };
 
   const [fileGroups, setFileGroups] = useState([]);
   const [folderGroups, setFolderGroups] = useState([]);
@@ -122,6 +125,9 @@ export function AppProvider({ children }) {
     displayedFileGroups = displayedFileGroups
       .map((g) => ({ ...g, files: g.files.filter((f) => flt.filter.allows(f.full_path)) }))
       .filter((g) => g.files.length >= 2);
+  }
+  if (keepRule !== "manual") {
+    displayedFileGroups = displayedFileGroups.map((g) => ({ ...g, files: reorderKeeperFirst(g.files, keepRule) }));
   }
   displayedFileGroups = sortGroups(displayedFileGroups, false);
   const displayedFolderGroups = sortGroups(folderGroups, true);
@@ -347,6 +353,7 @@ export function AppProvider({ children }) {
     ...lic, ...flt,
     mode, setMode, folders, addFolders, removeFolder, scanScope, setScanScope,
     fileOpts, setFileOpts, folderOpts, setFolderOpts, photoOpts, setPhotoOpts, photoPriority, setPhotoPriority,
+    keepRule, setKeepRule,
     fileGroups, folderGroups, photoGroups, displayedFileGroups, displayedFolderGroups, displayedPhotoGroups,
     deletedPaths, ignoredPaths, toggleIgnore, scanning, progress, barStatus, startScanning,
     sort, toggleSort,

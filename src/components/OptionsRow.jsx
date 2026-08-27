@@ -4,7 +4,7 @@ import { Check, SortBtn } from "./controls";
 
 export function OptionsRow() {
   const a = useApp();
-  const { mode, scanning, fileOpts, setFileOpts, folderOpts, setFolderOpts, photoOpts, setPhotoOpts, sort, toggleSort, filter, setDialog } = a;
+  const { mode, scanning, fileOpts, setFileOpts, folderOpts, setFolderOpts, photoOpts, setPhotoOpts, sort, toggleSort, filter, setDialog, keepRule, setKeepRule } = a;
   const set = (opts, setter, k) => (v) => setter({ ...opts, [k]: v });
 
   return (
@@ -25,6 +25,20 @@ export function OptionsRow() {
             title="Skip dotfiles and other hidden files" />
           <Check label="Symlinks" icon="link" checked={fileOpts.detectSymlinks} disabled={scanning} onChange={set(fileOpts, setFileOpts, "detectSymlinks")}
             title="Also group symlinks that point at the same target file" />
+          <div className="divider-v" />
+          <span className="row-label">KEEP</span>
+          <div className="sort-btns">
+            {[
+              { id: "manual", label: "Manual", title: "Choose which copy to delete yourself — today's default behavior" },
+              { id: "oldest", label: "Oldest", title: "Auto-keep the copy with the earliest modification date" },
+              { id: "newest", label: "Newest", title: "Auto-keep the copy with the latest modification date" },
+              { id: "largest", label: "Largest", title: "Auto-keep the largest copy — duplicates are byte-identical, so this usually ties and falls back to the first found" },
+            ].map((r) => (
+              <button key={r.id} className={`sort-btn ${keepRule === r.id ? "active" : ""}`} onClick={() => setKeepRule(r.id)} title={r.title}>
+                {r.label}
+              </button>
+            ))}
+          </div>
         </>
       )}
       {mode === "folders" && (

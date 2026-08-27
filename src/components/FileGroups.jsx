@@ -6,8 +6,9 @@ function confidenceClass(overall) {
   return "match-low";
 }
 
-function FileGroupCard({ group, deletedPaths, ignoredPaths, selected, onSelect, onToggleIgnore, onDelete, onOpenFolder }) {
+function FileGroupCard({ group, deletedPaths, ignoredPaths, selected, onSelect, onToggleIgnore, onDelete, onOpenFolder, keepRule }) {
   const remaining = group.files.filter((f) => !deletedPaths.has(f.full_path) && !ignoredPaths.has(f.full_path)).length;
+  const keeperId = keepRule && keepRule !== "manual" ? group.files[0]?.id : null;
   return (
     <div className={`fgroup ${remaining > 1 ? "removable" : "safe"}`}>
       <div className="fgroup-head">
@@ -54,6 +55,9 @@ function FileGroupCard({ group, deletedPaths, ignoredPaths, selected, onSelect, 
             >
               {file.path}
             </span>
+            {!isDeleted && file.id === keeperId && (
+              <span className="keeper-badge" title="Auto-selected to keep by the active Keep rule">★ KEEPER</span>
+            )}
             {!isDeleted ? (
               <>
                 <button className="icon-btn" title="Open folder in Finder" onClick={() => onOpenFolder(file.path)}>
@@ -89,7 +93,7 @@ function tooltipFor(c) {
   return lines.join("\n");
 }
 
-export function FileGroups({ groups, deletedPaths, ignoredPaths, selected, onSelect, onToggleIgnore, onDelete, onOpenFolder }) {
+export function FileGroups({ groups, deletedPaths, ignoredPaths, selected, onSelect, onToggleIgnore, onDelete, onOpenFolder, keepRule }) {
   return (
     <div className="group-list">
       {groups.map((g) => (
@@ -103,6 +107,7 @@ export function FileGroups({ groups, deletedPaths, ignoredPaths, selected, onSel
           onToggleIgnore={onToggleIgnore}
           onDelete={onDelete}
           onOpenFolder={onOpenFolder}
+          keepRule={keepRule}
         />
       ))}
     </div>

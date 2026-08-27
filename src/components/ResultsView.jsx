@@ -11,7 +11,7 @@ export function ResultsView() {
   const { mode, hasResults, barStatus, folders, deletedPaths, ignoredPaths, toggleIgnore,
     displayedFileGroups, displayedFolderGroups, displayedPhotoGroups, fileGroups, folderGroups, photoGroups,
     sizeActive, filter, selectFile, selectedFile, selectedFolderId, setSelectedFolderId, selectedPhotoId, setSelectedPhotoId,
-    deleteFile, onMergeFolder, safeMerge, setKeeper, deletePhotoOthers, openFolder } = a;
+    deleteFile, onMergeFolder, safeMerge, setKeeper, deletePhotoOthers, openFolder, keepRule } = a;
   const [collapsed, setCollapsed] = useState(new Set());
 
   if (!hasResults) {
@@ -30,7 +30,7 @@ export function ResultsView() {
   const toggle = (key) => setCollapsed((c) => { const n = new Set(c); n.has(key) ? n.delete(key) : n.add(key); return n; });
 
   const renderGroups = mode === "files"
-    ? (gs) => <FileGroups groups={gs} deletedPaths={deletedPaths} ignoredPaths={ignoredPaths} selected={selectedFile} onSelect={selectFile} onToggleIgnore={toggleIgnore} onDelete={deleteFile} onOpenFolder={openFolder} />
+    ? (gs) => <FileGroups groups={gs} deletedPaths={deletedPaths} ignoredPaths={ignoredPaths} selected={selectedFile} onSelect={selectFile} onToggleIgnore={toggleIgnore} onDelete={deleteFile} onOpenFolder={openFolder} keepRule={keepRule} />
     : (gs) => <FolderGroups groups={gs} selected={selectedFolderId} onSelect={setSelectedFolderId} onMerge={onMergeFolder} safeMerge={safeMerge} />;
 
   return (
