@@ -1,4 +1,5 @@
 import { Icon } from "../icons";
+import { sanitizeDecimalInput } from "../lib/locale";
 
 // Small reusable control widgets shared by the option/action rows.
 
@@ -27,9 +28,9 @@ export function SizeFilterBar({ value, onChange, title }) {
   return (
     <div className="size-filter" title={title}>
       <span>Size:</span>
-      <input type="text" placeholder="min" value={value.min} onChange={(e) => onChange({ ...value, min: e.target.value.replace(/\D/g, "") })} />
+      <input type="text" placeholder="min" value={value.min} onChange={(e) => onChange({ ...value, min: sanitizeDecimalInput(e.target.value) })} />
       <span>–</span>
-      <input type="text" placeholder="max" value={value.max} onChange={(e) => onChange({ ...value, max: e.target.value.replace(/\D/g, "") })} />
+      <input type="text" placeholder="max" value={value.max} onChange={(e) => onChange({ ...value, max: sanitizeDecimalInput(e.target.value) })} />
       <select value={value.unit} onChange={(e) => onChange({ ...value, unit: e.target.value })}>
         <option>KB</option><option>MB</option><option>GB</option>
       </select>
