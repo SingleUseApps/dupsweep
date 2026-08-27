@@ -2,16 +2,30 @@ import { useState, useEffect } from "react";
 import { getVersion } from "@tauri-apps/api/app";
 import { formatBytes, openLicensePage } from "../api";
 
-export function CleanAllSheet({ count, bytes, onClean, onCancel }) {
+const KEEP_RULE_TEXT = {
+  manual: "Keeping the first copy found in each group (Manual mode).",
+  oldest: "Keeping the oldest copy in each group.",
+  newest: "Keeping the newest copy in each group.",
+  largest: "Keeping the largest copy in each group (often ties, since duplicates are byte-identical).",
+};
+
+export function CleanAllSheet({ count, bytes, groups, keepRule, onClean, onCancel }) {
   return (
     <div className="overlay" onClick={onCancel}>
       <div className="sheet" onClick={(e) => e.stopPropagation()}>
         <h2>Clean All Duplicates?</h2>
+        <p>
+          This will delete <b>{count}</b> duplicate file{count === 1 ? "" : "s"} across <b>{groups}</b> group{groups === 1 ? "" : "s"}.
+          <br />
+          {KEEP_RULE_TEXT[keepRule] || KEEP_RULE_TEXT.manual}
+        </p>
         <div className="stat-line"><span>Files to move to Trash</span><span className="big-num red">{count}</span></div>
         <div className="stat-line"><span>Space to recover</span><span className="big-num green">{formatBytes(bytes)}</span></div>
         <p>
-          One verified copy of every file is preserved. Duplicates are moved to the system Trash
-          (recoverable), not permanently deleted. Each file is byte-for-byte verified before removal.
+          Each file is byte-for-byte verified before removal.
+          <br />
+          This is reversible: deleted files go to Trash, not permanently removed. Restore them from
+          Trash anytime, or press ⌘Z (Ctrl+Z on Windows) right after cleaning to undo.
         </p>
         <div className="sheet-row">
           <button className="btn-secondary" onClick={onCancel}>Cancel</button>

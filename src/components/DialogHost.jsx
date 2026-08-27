@@ -16,7 +16,7 @@ export function DialogHost() {
 
   return (
     <>
-      {dialog?.type === "cleanAll" && <CleanAllSheet count={dialog.count} bytes={dialog.bytes} onClean={doCleanAll} onCancel={close} />}
+      {dialog?.type === "cleanAll" && <CleanAllSheet count={dialog.count} bytes={dialog.bytes} groups={dialog.groups} keepRule={dialog.keepRule} onClean={doCleanAll} onCancel={close} />}
       {dialog?.type === "diff" && <DiffSheet group={dialog.group} safeMerge={safeMerge} onMerge={() => confirmMergeFolder(dialog.group)} onClose={close} />}
       {dialog?.type === "merge" && <MergeSheet group={dialog.group} safeMerge={safeMerge} onMerge={() => executeMerge(dialog.group)} onCancel={close} />}
       {dialog?.type === "mergeAll" && <MergeAllSheet groups={dialog.groups} safeMerge={safeMerge} onMergeAll={executeMergeAll} onCancel={close} />}

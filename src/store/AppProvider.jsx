@@ -155,9 +155,9 @@ export function AppProvider({ children }) {
   const activeCount = (g) => g.files.filter((f) => !deletedPaths.has(f.full_path) && !ignoredPaths.has(f.full_path)).length;
   const hasRemovable = displayedFileGroups.some((g) => activeCount(g) > 1);
   const cleanComposition = () => {
-    let count = 0, bytes = 0;
-    for (const g of displayedFileGroups) { const a = activeCount(g); if (a > 1) { count += a - 1; bytes += g.size_bytes * (a - 1); } }
-    return { count, bytes };
+    let count = 0, bytes = 0, groups = 0;
+    for (const g of displayedFileGroups) { const a = activeCount(g); if (a > 1) { count += a - 1; bytes += g.size_bytes * (a - 1); groups++; } }
+    return { count, bytes, groups };
   };
   const displayPotentialSavings = mode === "files" ? cleanComposition().bytes : potentialSavings;
   const hasResults = mode === "files" ? fileGroups.length > 0 : mode === "folders" ? folderGroups.length > 0 : photoGroups.length > 0;
@@ -250,7 +250,7 @@ export function AppProvider({ children }) {
       setStatus("Security Verified! Moved to Trash.");
     } catch (e) { setStatus(String(e)); }
   };
-  const cleanAll = () => { if (!lic.license.registered) { setDialog({ type: "register" }); return; } setDialog({ type: "cleanAll", ...cleanComposition() }); };
+  const cleanAll = () => { if (!lic.license.registered) { setDialog({ type: "register" }); return; } setDialog({ type: "cleanAll", ...cleanComposition(), keepRule }); };
   const doCleanAll = async () => {
     setDialog(null); setStatus("Verifying batch integrity...");
     try {
