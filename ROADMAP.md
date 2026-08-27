@@ -1,6 +1,6 @@
 # DupSweep — Roadmap
 
-Do the list **in order**. Tick an item when it ships, then start the next one. Do not start cloud login before step 7.
+Do the list **in order**. Tick an item when it ships, then start the next one. Do not start cloud login before step 6.
 
 Compared to **FileLister v1.21.0** (last native Swift macOS app before the Tauri rewrite). DupSweep already has local Files / Folders / Photos, Windows, license, site, and Stripe **test** checkout.
 
@@ -14,13 +14,12 @@ timeline
     1 : Ignore flag
     2 : Keep rules
     3 : Photos size filter
-    4 : Auto-scan
-    5 : Screenshots
-    6 : Stripe live
-    7 : Sign installers
-    8 : OneDrive Files
-    9 : OneDrive Folders
-    10 : OneDrive Photos
+    4 : Screenshots
+    5 : Stripe live
+    6 : Sign installers
+    7 : OneDrive Files
+    8 : OneDrive Folders
+    9 : OneDrive Photos
 ```
 
 ---
@@ -30,15 +29,14 @@ timeline
 - [x] **1. Ignore flag** — per file, skip that copy in Clean All without deleting it (FileLister v1.1).
 - [x] **2. Keep rules** — Files mode: keep oldest / newest / largest / manual (Photos already have keeper priority).
 - [x] **3. Photos size filter** — min/max size, same as Files (FileLister v1.19).
-- [ ] **4. Auto-scan** — start a search when the user adds a folder (FileLister v1.1).
-- [ ] **5. Screenshots** — you provide captures; put them on `/`, `/mac`, `/windows`, `/photos`, Help, and `og-image`.
-- [ ] **6. Stripe live** — live keys and webhooks, then one real 5€ purchase. Still test mode today.
-- [ ] **7. Sign / notarize installers** — so Gatekeeper and SmartScreen stop warning.
-- [ ] **8. OneDrive Files** — Entra + OAuth, folder picker, cloud file duplicates, delete to OneDrive recycle bin. Do **not** advertise login on the site until this works.
-- [ ] **9. OneDrive Folders** — cluster + in-place merge + copy to new folder (FileLister v1.13 / v1.17).
-- [ ] **10. OneDrive Photos** — Graph thumbnails + pHash (FileLister v1.21). Then Local/Remote bar and multi-account if needed.
+- [ ] **4. Screenshots** — you provide captures; put them on `/`, `/mac`, `/windows`, `/photos`, Help, and `og-image`.
+- [ ] **5. Stripe live** — live keys and webhooks, then one real 5€ purchase. Still test mode today.
+- [ ] **6. Sign / notarize installers** — so Gatekeeper and SmartScreen stop warning.
+- [ ] **7. OneDrive Files** — Entra + OAuth, folder picker, cloud file duplicates, delete to OneDrive recycle bin. Do **not** advertise login on the site until this works.
+- [ ] **8. OneDrive Folders** — cluster + in-place merge + copy to new folder (FileLister v1.13 / v1.17).
+- [ ] **9. OneDrive Photos** — Graph thumbnails + pHash (FileLister v1.21). Then Local/Remote bar and multi-account if needed.
 
-PayPal and automated Hub deploys stay **off** this list on purpose.
+Auto-scan on folder add was considered and dropped — not wanted. PayPal and automated Hub deploys also stay **off** this list on purpose.
 
 ---
 
@@ -83,28 +81,29 @@ Port these from FileLister before cloud work.
 | Ignore flag per file | 1 | ✅ | ✅ v1.1 | Exclude a copy from Clean All without deleting it |
 | Auto-select keep rules (oldest / newest / largest / manual) | 2 | ✅ | ✅ | "Largest" mostly ties — Files-mode duplicates are byte-identical by construction |
 | Photos min/max size filter | 3 | ✅ | ✅ v1.19 | Filters individual photos within a group, not whole groups |
-| Auto-scan when a folder is added | 4 | 📋 | ✅ v1.1 | DupSweep waits for “Search for Duplicates” |
-| Merge composition pie chart | after 10 | 📋 | ✅ v1.15 | Merge sheets have counts, no pie |
-| Help with annotated screenshots | 5 | 📋 | ✅ v1.3 | Needs real UI captures |
-| Native Quick Look (macOS) | after 10 | 📋 | ✅ | Optional polish; in-app preview exists |
+| Merge composition pie chart | after 9 | 📋 | ✅ v1.15 | Merge sheets have counts, no pie |
+| Help with annotated screenshots | 4 | 📋 | ✅ v1.3 | Needs real UI captures |
+| Native Quick Look (macOS) | after 9 | 📋 | ✅ | Optional polish; in-app preview exists |
 | Similarity-to-keeper % (Photos mode) | — | ✅ | ✅ | Hamming-distance-based "N% similar to keeper" shown per non-keeper photo — was already implemented, mis-tracked as planned |
 
-### Cloud login — later (queue 8–10)
+Auto-scan when a folder is added (FileLister v1.1) was considered and **dropped on purpose** — DupSweep keeps requiring an explicit "Search for Duplicates" click.
 
-FileLister’s OneDrive stack. DupSweep site must **not** claim this until it ships. Order: **Files → Folders → Photos** (same as FileLister). Do not start before queue step 7.
+### Cloud login — later (queue 7–9)
+
+FileLister’s OneDrive stack. DupSweep site must **not** claim this until it ships. Order: **Files → Folders → Photos** (same as FileLister). Do not start before queue step 6.
 
 | Feature | Queue | Status | FileLister | Notes |
 |---|---|---|---|---|
-| Entra app + OAuth (PKCE / device code) | 8 | 📋 | ✅ v1.11 | First step of OneDrive Files |
-| Connect / sign out, account display | 8 | 📋 | ✅ | |
-| Cloud folder picker | 8 | 📋 | ✅ v1.12 | |
-| Scan limits (max files / max GB) | 8 | 📋 | ✅ | |
-| OneDrive **Files** duplicates + delete to cloud recycle bin | 8 | 📋 | ✅ v1.11–1.12 | Use `quickXorHash` (not SHA-256) for cloud content |
-| OneDrive **Folders** cluster + in-place merge + copy-to-new-folder | 9 | 📋 | ✅ v1.13 / v1.17 | |
-| OneDrive **Photos** via Graph thumbnails + pHash | 10 | 📋 | ✅ v1.21 | |
-| Local / Remote mode bar | 10 | 📋 | ✅ v1.17 | UI already shows a Local-only stub |
-| Multi-connection (Keychain, picker, Settings) | 10 | 📋 | ✅ v1.18 | After single-account OneDrive works |
-| Unified local + cloud duplicate report | after 10 | 📋 | partial | FileLister kept modes separate; a combined report is extra |
+| Entra app + OAuth (PKCE / device code) | 7 | 📋 | ✅ v1.11 | First step of OneDrive Files |
+| Connect / sign out, account display | 7 | 📋 | ✅ | |
+| Cloud folder picker | 7 | 📋 | ✅ v1.12 | |
+| Scan limits (max files / max GB) | 7 | 📋 | ✅ | |
+| OneDrive **Files** duplicates + delete to cloud recycle bin | 7 | 📋 | ✅ v1.11–1.12 | Use `quickXorHash` (not SHA-256) for cloud content |
+| OneDrive **Folders** cluster + in-place merge + copy-to-new-folder | 8 | 📋 | ✅ v1.13 / v1.17 | |
+| OneDrive **Photos** via Graph thumbnails + pHash | 9 | 📋 | ✅ v1.21 | |
+| Local / Remote mode bar | 9 | 📋 | ✅ v1.17 | UI already shows a Local-only stub |
+| Multi-connection (Keychain, picker, Settings) | 9 | 📋 | ✅ v1.18 | After single-account OneDrive works |
+| Unified local + cloud duplicate report | after 9 | 📋 | partial | FileLister kept modes separate; a combined report is extra |
 
 ### Never built in FileLister either (don’t start yet)
 
@@ -121,7 +120,7 @@ FileLister’s OneDrive stack. DupSweep site must **not** claim this until it sh
 
 ## Ideas board (beyond FileLister parity)
 
-Nice-to-haves from VibeCoding Ideas. Not required to match FileLister. Only after queue 10.
+Nice-to-haves from VibeCoding Ideas. Not required to match FileLister. Only after queue 9.
 
 | Feature | Status | Notes |
 |---|---|---|
@@ -147,17 +146,17 @@ Nice-to-haves from VibeCoding Ideas. Not required to match FileLister. Only afte
 | SEO basics (www, canonical, sitemap, schema, README) | — | ✅ | |
 | Contact / Feature Request form | — | ✅ | |
 | OneDrive **folder** called out on the site | — | ✅ | Honest: on-disk only |
-| Photos “When this helps” visuals on `/photos/` | — | ✅ | Mockups for bursts / exports / chat / screenshots — independent of queue 5 |
+| Photos “When this helps” visuals on `/photos/` | — | ✅ | Mockups for bursts / exports / chat / screenshots — independent of queue 4 |
 | Merge Features into `/get-started/` + screenshot carousel | — | ✅ | Moved homepage `#features` grid onto `/get-started/`; small-thumbnail lightbox replaced with an arrow-nav carousel (app-window frame) |
-| Real UI screenshots on the site + `og:image` | 5 | 📋 | Waiting on captures |
-| Stripe **live** keys / real 5€ purchases | 6 | 📋 | Next when ready to sell |
-| Sign / notarize installers | 7 | 📋 | Gatekeeper / SmartScreen warn today |
+| Real UI screenshots on the site + `og:image` | 4 | 📋 | Waiting on captures |
+| Stripe **live** keys / real 5€ purchases | 5 | 📋 | Next when ready to sell |
+| Sign / notarize installers | 6 | 📋 | Gatekeeper / SmartScreen warn today |
 | PayPal | — | ⏸ | After live Stripe; off the numbered queue on purpose |
 | Automate site + license-service deploys | — | ✅ | GitHub Actions (Tailscale + rsync) on push, for dupsweep-site, VibeCoding Ideas, and license-service |
 
 ---
 
-## After 10 (only then)
+## After 9 (only then)
 
 Merge pie chart · native Quick Look · Google Drive / iCloud API / Dropbox · dashboard · scheduled scans · Finder extension · audio fingerprinting · exclusion presets · unified local+cloud report · FTP · related FileLister backlog items above.
 
