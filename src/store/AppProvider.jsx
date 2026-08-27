@@ -264,6 +264,19 @@ export function AppProvider({ children }) {
     } catch (e) { setStatus(String(e)); }
   };
 
+  const copyFileKeepers = () => setDialog({ type: "copyFileKeepers", count: displayedFileGroups.length });
+  const doCopyFileKeepers = async () => {
+    setDialog(null);
+    const dest = await pickDestination(); if (!dest) return;
+    const keepers = displayedFileGroups.map((g) => g.files[0]).filter(Boolean);
+    try {
+      const res = await api.exportFileKeepers(keepers, dest, folders);
+      if (res.log_path) setLastLogPath(res.log_path);
+      pushUndo({ title: `Export ${res.copied} keeper(s)`, created: res.created });
+      setStatus(`Copied ${res.copied} keeper(s) to "${baseName(dest)}". Originals untouched.`);
+    } catch (e) { setStatus(String(e)); }
+  };
+
   // ── folder merge ──
   const computeMergedName = (g) => `${baseName(g.folders[0])} merged`;
   const onMergeFolder = (group) => setDialog({ type: "diff", group });
@@ -360,7 +373,7 @@ export function AppProvider({ children }) {
     selectedFile, selectFile, selectedFolderId, setSelectedFolderId, selectedPhotoId, setSelectedPhotoId,
     potentialSavings: displayPotentialSavings, recovered, lastLogPath, searchedModes, hasResults, hasRemovable,
     safeMerge, safeMergeDest, setSafeMergeDest, renameKept, setRenameKept, onToggleSafeMerge,
-    deleteFile, cleanAll, doCleanAll, onMergeFolder, confirmMergeFolder, executeMerge, mergeAll, executeMergeAll,
+    deleteFile, cleanAll, doCleanAll, copyFileKeepers, doCopyFileKeepers, onMergeFolder, confirmMergeFolder, executeMerge, mergeAll, executeMergeAll,
     startWalkthrough, walk, walkAdvance, setWalk,
     setKeeper, deletePhotoOthers, deleteAllPhotos, exportKeepers,
     undoStack, undoLast: () => undoRef.current(),

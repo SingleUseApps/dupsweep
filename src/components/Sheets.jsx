@@ -36,6 +36,27 @@ export function CleanAllSheet({ count, bytes, groups, keepRule, onClean, onCance
   );
 }
 
+export function CopyFileKeepersSheet({ count, onCopy, onCancel }) {
+  return (
+    <div className="overlay" onClick={onCancel}>
+      <div className="sheet" onClick={(e) => e.stopPropagation()}>
+        <h2>Copy Keepers to…</h2>
+        <p>
+          This will copy <b>{count}</b> keeper file{count === 1 ? "" : "s"} — one per group — into a folder
+          you choose, preserving the original folder structure.
+          <br />
+          <br />
+          This only copies files. It never touches, moves, or deletes your original files.
+        </p>
+        <div className="sheet-row">
+          <button className="btn-secondary" onClick={onCancel}>Cancel</button>
+          <button className="btn-primary" onClick={onCopy}>Choose Folder…</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function MergeSheet({ group, safeMerge, onMerge, onCancel }) {
   const removable = group.matched_groups.reduce((s, g) => s + Math.max(0, g.files.length - 1), 0);
   return (

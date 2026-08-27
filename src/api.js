@@ -21,6 +21,7 @@ export const api = {
   mergeFolder: (group, rename, mergedName) => invoke("merge_folder", { group, rename, mergedName }),
   safeMerge: (group, dest) => invoke("safe_merge", { group, dest }),
   exportKeepers: (keepers, dest, roots) => invoke("export_keepers", { keepers, dest, roots }),
+  exportFileKeepers: (keepers, dest, roots) => invoke("export_file_keepers", { keepers, dest, roots }),
   deletePhotos: (photos, keeperName) => invoke("delete_photos", { photos, keeperName }),
   undoOp: (trashed, created) => invoke("undo_op", { trashed, created }),
   listLogs: () => invoke("list_logs"),

@@ -1,5 +1,5 @@
 import { useApp } from "../store/AppProvider";
-import { CleanAllSheet, MergeSheet, MergeAllSheet, PhotoDeleteSheet, LicenseSheet, RegisterAlert, FiltersSheet, AboutSheet } from "./Sheets";
+import { CleanAllSheet, CopyFileKeepersSheet, MergeSheet, MergeAllSheet, PhotoDeleteSheet, LicenseSheet, RegisterAlert, FiltersSheet, AboutSheet } from "./Sheets";
 import { DiffSheet } from "./FolderGroups";
 import { HelpWindow } from "./Help";
 import { SettingsWindow } from "./Settings";
@@ -10,13 +10,14 @@ import { Preview } from "./Preview";
 export function DialogHost() {
   const a = useApp();
   const { dialog, setDialog, walk, walkAdvance, setWalk, previewPath, setPreviewPath,
-    safeMerge, doCleanAll, confirmMergeFolder, executeMerge, executeMergeAll,
+    safeMerge, doCleanAll, doCopyFileKeepers, confirmMergeFolder, executeMerge, executeMergeAll,
     register, deactivate, license, scanFilters, setScanFilters, photoPriority, setPhotoPriority } = a;
   const close = () => setDialog(null);
 
   return (
     <>
       {dialog?.type === "cleanAll" && <CleanAllSheet count={dialog.count} bytes={dialog.bytes} groups={dialog.groups} keepRule={dialog.keepRule} onClean={doCleanAll} onCancel={close} />}
+      {dialog?.type === "copyFileKeepers" && <CopyFileKeepersSheet count={dialog.count} onCopy={doCopyFileKeepers} onCancel={close} />}
       {dialog?.type === "diff" && <DiffSheet group={dialog.group} safeMerge={safeMerge} onMerge={() => confirmMergeFolder(dialog.group)} onClose={close} />}
       {dialog?.type === "merge" && <MergeSheet group={dialog.group} safeMerge={safeMerge} onMerge={() => executeMerge(dialog.group)} onCancel={close} />}
       {dialog?.type === "mergeAll" && <MergeAllSheet groups={dialog.groups} safeMerge={safeMerge} onMergeAll={executeMergeAll} onCancel={close} />}

@@ -256,30 +256,38 @@ struct ExportResult {
     log_path: Option<String>,
 }
 
-// Copy a group's keeper photos into a destination, replicating folder structure.
-#[tauri::command]
-fn export_keepers(keepers: Vec<PhotoInfo>, dest: String, roots: Vec<String>) -> Result<ExportResult, String> {
+// Minimal shape shared by PhotoInfo and FileInfo for the copy-keepers routine below.
+struct KeeperItem<'a> {
+    name: &'a str,
+    path: &'a str,
+    full_path: &'a str,
+    size_bytes: u64,
+}
+
+// Copy each item into a destination, replicating folder structure. Shared by
+// export_keepers (Photos) and export_file_keepers (Files) below.
+fn copy_keepers(items: &[KeeperItem], dest: &str, roots: &[String], report_title: &str) -> ExportResult {
     use std::fs;
     let mut copied = 0;
     let mut created = Vec::new();
     let mut entries = Vec::new();
-    for k in &keepers {
+    for k in items {
         // Path relative to its scanned root, prefixed by the root folder name.
         // Path::starts_with/strip_prefix are component-wise and OS-correct (handles
         // Windows '\' and avoids matching "/foo" against "/foobar").
-        let full = Path::new(&k.full_path);
+        let full = Path::new(k.full_path);
         let best_root: Option<&String> = roots
             .iter()
             .filter(|r| full.starts_with(Path::new(r.as_str())))
             .max_by_key(|r| r.len());
         let rel: std::path::PathBuf = if let Some(root) = best_root {
             let root_name = Path::new(root).file_name().unwrap_or_default();
-            let after = full.strip_prefix(root).unwrap_or(Path::new(&k.name));
+            let after = full.strip_prefix(root).unwrap_or(Path::new(k.name));
             Path::new(root_name).join(after)
         } else {
-            std::path::PathBuf::from(&k.name)
+            std::path::PathBuf::from(k.name)
         };
-        let mut target = Path::new(&dest).join(&rel);
+        let mut target = Path::new(dest).join(&rel);
         if let Some(parent) = target.parent() {
             let _ = fs::create_dir_all(parent);
         }
@@ -295,17 +303,30 @@ fn export_keepers(keepers: Vec<PhotoInfo>, dest: String, roots: Vec<String>) -> 
             target = parent.join(name);
             suffix += 1;
         }
-        if fs::copy(&k.full_path, &target).is_ok() {
+        if fs::copy(k.full_path, &target).is_ok() {
             copied += 1;
             let tpath = target.to_string_lossy().to_string();
             created.push(tpath.clone());
-            entries.push(entry("COPIED", &k.name, &k.full_path, &k.path, &tpath, &dest, k.size_bytes, "keeper exported · originals untouched"));
+            entries.push(entry("COPIED", k.name, k.full_path, k.path, &tpath, dest, k.size_bytes, "keeper exported · originals untouched"));
         }
     }
-    let cluster = LogCluster { keep_folder: dest.clone(), other_folders: vec![], result_name: "Keeper export".into(), result_path: dest.clone(), entries };
-    let report = LogReport::new("Photo export (keepers copied, originals kept)", false, vec![cluster]);
+    let cluster = LogCluster { keep_folder: dest.to_string(), other_folders: vec![], result_name: "Keeper export".into(), result_path: dest.to_string(), entries };
+    let report = LogReport::new(report_title, false, vec![cluster]);
     let log_path = logger::write(&report);
-    Ok(ExportResult { copied, created, log_path })
+    ExportResult { copied, created, log_path }
+}
+
+#[tauri::command]
+fn export_keepers(keepers: Vec<PhotoInfo>, dest: String, roots: Vec<String>) -> Result<ExportResult, String> {
+    let items: Vec<KeeperItem> = keepers.iter().map(|k| KeeperItem { name: &k.name, path: &k.path, full_path: &k.full_path, size_bytes: k.size_bytes }).collect();
+    Ok(copy_keepers(&items, &dest, &roots, "Photo export (keepers copied, originals kept)"))
+}
+
+// Copy a group's keeper files into a destination, replicating folder structure.
+#[tauri::command]
+fn export_file_keepers(keepers: Vec<FileInfo>, dest: String, roots: Vec<String>) -> Result<ExportResult, String> {
+    let items: Vec<KeeperItem> = keepers.iter().map(|k| KeeperItem { name: &k.name, path: &k.path, full_path: &k.full_path, size_bytes: k.size_bytes }).collect();
+    Ok(copy_keepers(&items, &dest, &roots, "File export (keepers copied, originals kept)"))
 }
 
 // Trash photos and write a log. `kept` is the keeper name per group (for the log).
@@ -448,6 +469,7 @@ pub fn run() {
             merge_folder,
             safe_merge,
             export_keepers,
+            export_file_keepers,
             delete_photos,
             undo_op,
             list_logs,

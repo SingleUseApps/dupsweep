@@ -7,7 +7,7 @@ export function ActionsRow() {
   const {
     mode, fileGroups, folderGroups, photoGroups, displayedPhotoGroups, hasRemovable,
     sizeFilter, setSizeFilter, safeMerge, safeMergeDest, setSafeMergeDest, renameKept, setRenameKept, onToggleSafeMerge,
-    lastLogPath, startWalkthrough, mergeAll, exportKeepers, deleteAllPhotos, cleanAll,
+    lastLogPath, startWalkthrough, mergeAll, exportKeepers, deleteAllPhotos, cleanAll, copyFileKeepers,
   } = useApp();
 
   return (
@@ -61,6 +61,11 @@ export function ActionsRow() {
             <Icon name="trash" size={11} /> Delete all non-keepers
           </button>
         </>
+      )}
+      {mode === "files" && fileGroups.length > 0 && (
+        <button className="action-btn green" onClick={copyFileKeepers} title="Copy each group's keeper file into a folder you choose, preserving the original folder structure. Originals untouched">
+          <Icon name="upload" size={11} /> Copy keepers to…
+        </button>
       )}
       {mode === "files" && hasRemovable && (
         <button className="action-btn red" onClick={cleanAll} title="Batch-remove every redundant copy after a byte-for-byte safety re-check. Ignored copies are left alone">
