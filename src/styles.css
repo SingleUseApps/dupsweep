@@ -306,6 +306,8 @@ button { font-family: inherit; cursor: default; }
   gap: 10px; color: var(--secondary);
 }
 .empty .icon { font-size: 46px; opacity: 0.25; }
+.empty .icon.clickable { cursor: pointer; }
+.empty .icon.clickable:hover { opacity: 0.45; }
 .empty .title { font-size: 17px; font-weight: 600; color: var(--text); }
 .empty .sub { font-size: 12px; }
 

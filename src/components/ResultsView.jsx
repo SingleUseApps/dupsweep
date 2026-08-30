@@ -11,14 +11,16 @@ export function ResultsView() {
   const { mode, hasResults, barStatus, folders, deletedPaths, ignoredPaths, toggleIgnore,
     displayedFileGroups, displayedFolderGroups, displayedPhotoGroups, fileGroups, folderGroups, photoGroups,
     sizeActive, filter, selectFile, selectedFile, selectedFolderId, setSelectedFolderId, selectedPhotoId, setSelectedPhotoId,
-    deleteFile, onMergeFolder, safeMerge, setKeeper, deletePhotoOthers, openFolder, keepRule } = a;
+    deleteFile, onMergeFolder, safeMerge, setKeeper, deletePhotoOthers, openFolder, keepRule, addFolders } = a;
   const [collapsed, setCollapsed] = useState(new Set());
 
   if (!hasResults) {
     const done = barStatus && barStatus.includes("Completed");
     return (
       <div className="empty">
-        <span className="icon"><Icon name={done ? "check" : "folderPlus"} size={46} /></span>
+        {done
+          ? <span className="icon"><Icon name="check" size={46} /></span>
+          : <span className="icon clickable" onClick={addFolders} title="Add Folder…"><Icon name="folderPlus" size={100} /></span>}
         <span className="title">{done ? "No duplicates found" : "Add folder(s) to begin"}</span>
         <span className="sub">{mode === "photos" ? "Press Search to find visually similar photos." : "Press Search for Duplicates after adding folders."}</span>
       </div>
