@@ -427,7 +427,7 @@ pub fn run() {
             // (so it can show live registration state), keep Edit/Window intact
             // so text-field shortcuts (copy/paste/undo) keep working.
             use tauri::menu::{Menu, MenuItem, SubmenuBuilder};
-            let about_item = MenuItem::with_id(app, "about-dupsweep", "About DupSweep", true, None::<&str>)?;
+            let about_item = MenuItem::with_id(app, "about-dupsweep", "About DupSweep", true, Some("CmdOrCtrl+I"))?;
             let app_menu = SubmenuBuilder::new(app, "DupSweep")
                 .item(&about_item)
                 .separator()
