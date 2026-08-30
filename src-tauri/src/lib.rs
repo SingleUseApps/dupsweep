@@ -418,14 +418,16 @@ fn open_folder(path: String) -> Result<(), String> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .enable_macos_default_menu(false)
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
             app.manage(ScanState { stop: Arc::new(AtomicBool::new(false)) });
 
             // Custom app menu: swap the native "About" panel for our own dialog
-            // (so it can show live registration state), keep Edit/Window intact
+            // (so it can show live registration state), keep Edit intact
             // so text-field shortcuts (copy/paste/undo) keep working.
+            // No Window/Help submenus — not needed for this app.
             use tauri::menu::{Menu, MenuItem, SubmenuBuilder};
             let about_item = MenuItem::with_id(app, "about-dupsweep", "About DupSweep", true, Some("CmdOrCtrl+I"))?;
             let app_menu = SubmenuBuilder::new(app, "DupSweep")
@@ -442,11 +444,7 @@ pub fn run() {
                 .paste()
                 .select_all()
                 .build()?;
-            let window_menu = SubmenuBuilder::new(app, "Window")
-                .minimize()
-                .close_window()
-                .build()?;
-            let menu = Menu::with_items(app, &[&app_menu, &edit_menu, &window_menu])?;
+            let menu = Menu::with_items(app, &[&app_menu, &edit_menu])?;
             app.set_menu(menu)?;
 
             let handle = app.handle().clone();
