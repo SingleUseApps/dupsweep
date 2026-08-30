@@ -29,6 +29,7 @@ export const api = {
   validateLicense: (key, email) => invoke("validate_license", { key, email }),
   revealInFinder: (path) => invoke("reveal_in_finder", { path }),
   openFolder: (path) => invoke("open_folder", { path }),
+  exportFileList: (roots) => invoke("export_file_list", { roots }),
 };
 
 // Scan progress events.

@@ -34,8 +34,8 @@ export function ActionsRow() {
       )}
 
       {lastLogPath && (
-        <button className="btn-bordered" onClick={() => api.revealInFinder(lastLogPath)} title="Show the most recent log">
-          <Icon name="reveal" size={11} /> Reveal Log
+        <button className="btn-bordered" onClick={() => api.revealInFinder(lastLogPath)} title="Show the most recent log or file list">
+          <Icon name="reveal" size={11} /> Log / Filelist Folder
         </button>
       )}
 

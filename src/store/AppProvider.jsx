@@ -360,6 +360,13 @@ export function AppProvider({ children }) {
     catch (e) { setStatus(String(e)); }
   };
 
+  // Writes a JSON list of every file under the selected folders — only
+  // meaningful once a search has been run, so callers gate on searchedModes.
+  const exportFileList = async () => {
+    try { const path = await api.exportFileList(folders); setLastLogPath(path); setStatus(`File list saved to "${baseName(path)}".`); }
+    catch (e) { setStatus(String(e)); }
+  };
+
   const barStatus = searchedModes.has(mode) ? status : "";
 
   const value = {
@@ -375,7 +382,7 @@ export function AppProvider({ children }) {
     safeMerge, safeMergeDest, setSafeMergeDest, renameKept, setRenameKept, onToggleSafeMerge,
     deleteFile, cleanAll, doCleanAll, copyFileKeepers, doCopyFileKeepers, onMergeFolder, confirmMergeFolder, executeMerge, mergeAll, executeMergeAll,
     startWalkthrough, walk, walkAdvance, setWalk,
-    setKeeper, deletePhotoOthers, deleteAllPhotos, exportKeepers,
+    setKeeper, deletePhotoOthers, deleteAllPhotos, exportKeepers, exportFileList,
     undoStack, undoLast: () => undoRef.current(),
     dialog, setDialog, previewPath, setPreviewPath,
     openFolder: (p) => api.openFolder(p),

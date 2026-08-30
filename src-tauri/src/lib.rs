@@ -383,6 +383,28 @@ fn format_bytes_cmd(bytes: u64) -> String {
     format_bytes(bytes)
 }
 
+// Writes a JSON list of every file under the given folders into the same
+// folder as operation logs (~/Documents/DupSweep Logs/), same format style as
+// the JSON operation log. Frontend only enables this after a search has completed.
+#[tauri::command]
+fn export_file_list(roots: Vec<String>) -> Result<String, String> {
+    let dir = logger::default_log_dir().ok_or("Could not resolve the Documents folder")?;
+    std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    let stamp = chrono::Local::now().format("%Y-%m-%d_%H-%M-%S").to_string();
+    let path = dir.join(format!("DupSweep-file-list-{}.json", stamp));
+    let files = list_all_files(&roots);
+    let report = serde_json::json!({
+        "timestamp": chrono::Local::now().to_rfc3339(),
+        "app_version": logger::APP_VERSION,
+        "folders": roots,
+        "file_count": files.len(),
+        "files": files,
+    });
+    let json = serde_json::to_string_pretty(&report).map_err(|e| e.to_string())?;
+    std::fs::write(&path, json).map_err(|e| e.to_string())?;
+    Ok(path.to_string_lossy().to_string())
+}
+
 // Reveal a path in the system file manager.
 #[tauri::command]
 fn reveal_in_finder(path: String) -> Result<(), String> {
@@ -476,6 +498,7 @@ pub fn run() {
             format_bytes_cmd,
             reveal_in_finder,
             open_folder,
+            export_file_list,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

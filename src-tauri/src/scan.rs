@@ -106,6 +106,20 @@ pub fn is_content_identical(p1: &str, p2: &str) -> bool {
     true
 }
 
+// Lists every regular file under the given roots, no filtering — used by the
+// "Export File List" button, independent of any scan options.
+pub fn list_all_files(roots: &[String]) -> Vec<String> {
+    let mut out = Vec::new();
+    for root in roots {
+        for entry in WalkDir::new(root).follow_links(false).into_iter().filter_map(|e| e.ok()) {
+            if entry.file_type().is_file() {
+                out.push(entry.path().to_string_lossy().to_string());
+            }
+        }
+    }
+    out
+}
+
 // One scan pass over the given roots. Mirrors FileScanner.scanRoots.
 pub fn scan_roots(
     roots: &[String],
