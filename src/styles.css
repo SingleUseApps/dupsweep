@@ -148,6 +148,8 @@ button { font-family: inherit; cursor: default; }
   flex-shrink: 0;
 }
 .btn-bordered:hover { background: rgba(0,0,0,0.03); }
+.btn-bordered:disabled { opacity: 0.4; cursor: default; }
+.btn-bordered:disabled:hover { background: var(--control-bg); }
 
 /* ── Options / Actions rows ── */
 .options-wrap { padding: 0 16px 10px; }
