@@ -184,10 +184,9 @@
   <script>
     // Screenshot carousel
     const shots = [
-      { title: 'DupSweep — macOS', caption: 'Choose folders to scan', placeholder: 'macOS – scan screen placeholder' },
-      { title: 'DupSweep — macOS', caption: 'Review & clean duplicates', placeholder: 'macOS – results screen placeholder' },
-      { title: 'DupSweep — Windows', caption: 'Choose folders to scan', placeholder: 'Windows – scan screen placeholder' },
-      { title: 'DupSweep — Windows', caption: 'Review & clean duplicates', placeholder: 'Windows – results screen placeholder' }
+      { title: 'DupSweep — Files', src: '/screenshots/dupsweep-macos-files.png', caption: 'Compare and clean duplicate files, grouped and confidence-scored' },
+      { title: 'DupSweep — Folders', src: '/screenshots/dupsweep-macos-folders-list.png', caption: 'Duplicate folder clusters, ready to merge' },
+      { title: 'DupSweep — Folders', src: '/screenshots/dupsweep-macos-folders-review.png', caption: 'Review the exact merge plan before anything changes' }
     ];
     let shotIndex = 0;
     const carouselImage = document.getElementById('carouselImage');
@@ -198,8 +197,8 @@
       const shot = shots[shotIndex];
       carouselTitle.textContent = shot.title;
       carouselCaption.textContent = shot.caption;
-      carouselImage.alt = shot.placeholder;
-      carouselImage.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500'%3E%3Crect fill='%23efece6' width='800' height='500'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='18' fill='%23999' text-anchor='middle' dominant-baseline='middle'%3E${shot.placeholder}%3C/text%3E%3C/svg%3E`;
+      carouselImage.alt = `${shot.title} — ${shot.caption}`;
+      carouselImage.src = shot.src;
     }
 
     document.getElementById('carouselPrev').addEventListener('click', () => {
