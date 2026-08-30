@@ -123,6 +123,28 @@ fn trunc(s: &str, n: usize) -> String {
     }
 }
 
+// Wraps a "label: path" line across as many lines as needed (continuation lines
+// indented under the path, not the label) instead of truncating — the PDF log
+// must always show the complete path.
+fn wrap_labeled(prefix: &str, value: &str, width: usize) -> Vec<String> {
+    let indent = " ".repeat(prefix.chars().count());
+    let mut remaining: Vec<char> = value.chars().collect();
+    if remaining.is_empty() {
+        return vec![prefix.to_string()];
+    }
+    let mut out = Vec::new();
+    let mut first = true;
+    while !remaining.is_empty() {
+        let label = if first { prefix } else { &indent };
+        let avail = width.saturating_sub(label.chars().count()).max(1);
+        let take = avail.min(remaining.len());
+        let chunk: String = remaining.drain(..take).collect();
+        out.push(format!("{label}{chunk}"));
+        first = false;
+    }
+    out
+}
+
 // Renders the report to a paginated A4 PDF — written by hand (no dependency) using
 // the base-14 Helvetica fonts, which need no embedding. Best-effort.
 fn render_pdf(report: &LogReport, path: &std::path::Path) -> Option<()> {
@@ -143,9 +165,13 @@ fn render_pdf(report: &LogReport, path: &std::path::Path) -> Option<()> {
         lines.push((ascii(&trunc(&c.result_name, 95)), 12, true));
         for e in &c.entries {
             lines.push((ascii(&trunc(&format!("[{}] {}  ·  {}", e.action, e.file_name, byte_string(e.size_bytes)), 98)), 9, false));
-            lines.push((ascii(&trunc(&format!("     from: {}", e.source_path), 100)), 8, false));
+            for l in wrap_labeled("     from: ", &e.source_path, 100) {
+                lines.push((ascii(&l), 8, false));
+            }
             if !e.destination_path.is_empty() {
-                lines.push((ascii(&trunc(&format!("     to:   {}", e.destination_path), 100)), 8, false));
+                for l in wrap_labeled("     to:   ", &e.destination_path, 100) {
+                    lines.push((ascii(&l), 8, false));
+                }
             }
         }
         lines.push((String::new(), 5, false));
