@@ -34,7 +34,7 @@ export function HistoryWindow({ onClose }) {
 
   return (
     <div className="overlay" onClick={onClose}>
-      <div className="sheet" style={{ width: 880, height: 600, padding: 0, display: "flex", flexDirection: "row" }} onClick={(e) => e.stopPropagation()}>
+      <div className="sheet" style={{ width: 880, height: 600, padding: 0, display: "flex", flexDirection: "row", overflow: "hidden" }} onClick={(e) => e.stopPropagation()}>
         {/* sidebar */}
         <div style={{ width: 300, borderRight: "1px solid var(--border)", overflowY: "auto" }}>
           <div style={{ display: "flex", alignItems: "center", padding: "12px 14px", borderBottom: "1px solid var(--border)" }}>
@@ -64,7 +64,7 @@ export function HistoryWindow({ onClose }) {
           })}
         </div>
         {/* detail */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
           {current ? (
             <>
               <div style={{ padding: 16, borderBottom: "1px solid var(--border)" }}>
