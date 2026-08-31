@@ -121,13 +121,21 @@
             <span class="carousel-dot"></span><span class="carousel-dot"></span><span class="carousel-dot"></span>
             <span class="carousel-title" id="carouselTitle"></span>
           </div>
-          <img class="carousel-image" id="carouselImage" src="" alt="">
+          <img class="carousel-image" id="carouselImage" src="" alt="" title="Click to view full size">
         </div>
         <button type="button" class="carousel-arrow" id="carouselNext" aria-label="Next screenshot">›</button>
       </div>
       <p class="carousel-caption" id="carouselCaption"></p>
     </div>
   </section>
+
+  <div class="lightbox-overlay" id="lightboxOverlay">
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <button type="button" class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Previous screenshot">‹</button>
+    <img class="lightbox-image" id="lightboxImage" src="" alt="">
+    <button type="button" class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Next screenshot">›</button>
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
 
   <section class="license-section" id="license">
     <div class="container">
@@ -211,6 +219,42 @@
     });
 
     renderShot();
+
+    // Screenshot lightbox — click the carousel image to view it large, arrow keys to browse.
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+
+    function renderLightbox() {
+      const shot = shots[shotIndex];
+      lightboxImage.src = shot.src;
+      lightboxImage.alt = `${shot.title} — ${shot.caption}`;
+      lightboxCaption.textContent = `${shot.title} — ${shot.caption}`;
+    }
+    function openLightbox() {
+      renderLightbox();
+      lightboxOverlay.classList.add('open');
+    }
+    function closeLightbox() {
+      lightboxOverlay.classList.remove('open');
+    }
+    function stepLightbox(dir) {
+      shotIndex = (shotIndex + dir + shots.length) % shots.length;
+      renderShot();
+      renderLightbox();
+    }
+
+    carouselImage.addEventListener('click', openLightbox);
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    document.getElementById('lightboxPrev').addEventListener('click', () => stepLightbox(-1));
+    document.getElementById('lightboxNext').addEventListener('click', () => stepLightbox(1));
+    lightboxOverlay.addEventListener('click', (e) => { if (e.target === lightboxOverlay) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lightboxOverlay.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      else if (e.key === 'ArrowLeft') stepLightbox(-1);
+      else if (e.key === 'ArrowRight') stepLightbox(1);
+    });
   </script>
 </body>
 </html>
