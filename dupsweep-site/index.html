@@ -250,20 +250,29 @@
 
   <section class="comparison">
     <div class="container">
-      <h2 class="section-title">Two ways to find duplicates</h2>
-      <p class="section-sub">Photography has different needs than generic files.</p>
-      <div class="comparison-grid">
+      <h2 class="section-title">Three ways to find duplicates</h2>
+      <p class="section-sub">Photography, whole folders, and generic files each need a different check.</p>
+      <div class="comparison-grid mode-grid">
         <div class="comparison-card">
           <div class="comparison-icon">🗂️</div>
           <h3>Files mode</h3>
           <p><strong>SHA-256 byte verification</strong></p>
           <p class="comparison-desc">Exact duplicates only. Two files match if their contents are identical bit-for-bit. Perfect for documents, installers, archives.</p>
+          <p><a class="mode-link" href="/files/">Learn more →</a></p>
+        </div>
+        <div class="comparison-card">
+          <div class="comparison-icon">📁</div>
+          <h3>Folders mode</h3>
+          <p><strong>Whole-folder clustering</strong></p>
+          <p class="comparison-desc">Finds duplicated folder structures, not just files, and merges them safely with a full preview first.</p>
+          <p><a class="mode-link" href="/folders/">Learn more →</a></p>
         </div>
         <div class="comparison-card">
           <div class="comparison-icon">🖼️</div>
           <h3>Photos mode</h3>
           <p><strong>Perceptual hashing</strong></p>
           <p class="comparison-desc">Finds similar photos even when they're not identical: bursts, exports, resizes, chat copies. Catches what byte-matching misses.</p>
+          <p><a class="mode-link" href="/photos/">Learn more →</a></p>
         </div>
       </div>
     </div>
