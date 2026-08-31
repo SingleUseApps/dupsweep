@@ -87,6 +87,9 @@
   .comparison-card p { font-size: 14px; color: var(--text-dim); margin: 0 0 8px; line-height: 1.5; }
   .comparison-card p:first-of-type { font-weight: 700; color: var(--teal); margin-bottom: 12px; }
   .comparison-desc { font-size: 14px; }
+  .mode-grid { grid-template-columns: repeat(3, 1fr); }
+  .mode-link { color: var(--teal); font-weight: 700; text-decoration: none; }
+  .mode-link:hover { text-decoration: underline; }
 
   /* For Photographers section */
   .photographers { padding: 56px 0; background: rgba(31,122,112,0.05); }
